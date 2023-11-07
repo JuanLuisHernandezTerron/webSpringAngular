@@ -1,0 +1,2 @@
+insert into usuarios(dni, nombre, apellidos, email, contrasena,fecha_nacimiento) values ('29535449E','Juan Luis','Hernandez','juanluterron@gmail.com','asd123','2018-03-06');
+insert into usuarios(dni, nombre, apellidos, email, contrasena,fecha_nacimiento) values ('29535449C','Juan','Terron','juan_luht@gmail.com','asd125','2018-03-09');
