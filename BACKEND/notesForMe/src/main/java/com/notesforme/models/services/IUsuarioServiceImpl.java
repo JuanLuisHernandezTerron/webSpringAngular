@@ -21,7 +21,7 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 
 	@Override
 	public Usuario findByID(String id) {
-		return usuarioDao.findById(id).orElseThrow();
+		return usuarioDao.findById(id).orElse(null);
 	}
 
 	@Override
@@ -33,5 +33,4 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 	public void delete(String id) {
 		usuarioDao.deleteById(id);
 	}
-
 }

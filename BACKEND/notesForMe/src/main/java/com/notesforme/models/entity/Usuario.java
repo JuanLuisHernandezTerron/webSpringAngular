@@ -14,8 +14,10 @@ public class Usuario implements Serializable {
 
 	@Id
 	private String dni;
+	@Column(nullable = false)
 	private String nombre;
 	private String apellidos;
+	@Column(nullable = false, unique = true)
 	private String email;
 	private String contrasena;
 	@Column(name = "fecha_nacimiento")
@@ -77,5 +79,4 @@ public class Usuario implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 }
