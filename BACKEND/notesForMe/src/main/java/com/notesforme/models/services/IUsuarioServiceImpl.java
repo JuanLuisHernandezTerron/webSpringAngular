@@ -3,6 +3,8 @@ package com.notesforme.models.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.notesforme.models.dao.IUsuarioDao;
@@ -19,6 +21,11 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 		return (List<Usuario>) usuarioDao.findAll();
 	}
 
+  	@Override
+	public Page<Usuario> findAll(Pageable pageable) {
+		return usuarioDao.findAll(pageable);
+	}
+	
 	@Override
 	public Usuario findByID(String id) {
 		return usuarioDao.findById(id).orElse(null);
@@ -30,7 +37,8 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 	}
 
 	@Override
-	public void delete(String id) {
+	public void deleteById(String id) {
 		usuarioDao.deleteById(id);
 	}
+
 }
