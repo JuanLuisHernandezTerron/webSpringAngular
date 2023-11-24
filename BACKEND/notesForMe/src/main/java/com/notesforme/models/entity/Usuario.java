@@ -1,14 +1,21 @@
 package com.notesforme.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -35,8 +42,25 @@ public class Usuario implements Serializable {
 	@NotEmpty
 	private String contrasena;
 	
+	@NotNull(message = "La fecha no puede ser nula")
 	@Column(name = "fecha_nacimiento")
 	private Date FechaNacimiento;
+	
+	private String img_Perfil;
+	
+	//Utilizamos carga perezosa, para que solo lo utilizemos cuando sea necesario y se llame solo a ese método.
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	private List<Nota> nota = new ArrayList<Nota>();
+
+
+	public List<Nota> getNota() {
+		return nota;
+	}
+
+	public void setNota(List<Nota> nota) {
+		this.nota = nota;
+	}
 
 	public Usuario() {
 		super();
@@ -90,6 +114,14 @@ public class Usuario implements Serializable {
 		FechaNacimiento = fechaNacimiento;
 	}
 
+	public String getImgPerfil() {
+		return img_Perfil;
+	}
+
+	public void setImgPerfil(String imgPerfil) {
+		this.img_Perfil = imgPerfil;
+	}
+	
 	/**
 	 * 
 	 */
