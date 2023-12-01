@@ -3,6 +3,8 @@ package com.notesforme.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Temporal;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -36,6 +38,7 @@ public class Nota implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_usuario")
+	@JsonBackReference
 	private Usuario usuario_id;
 
 	public Usuario getUsuario_id() {

@@ -90,9 +90,6 @@ public class UsuarioRestController {
 		return new ResponseEntity<Usuario>(usuario,HttpStatus.OK);
 	}
 	
-	
-	
-	
 	@PostMapping("/inserUser")
 	/*
 	* Utilizamos @ResponseStatus para que el codigo 201 quede OK en la peticion.

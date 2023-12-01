@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,8 +52,8 @@ public class Usuario implements Serializable {
 	//Utilizamos carga perezosa, para que solo lo utilizemos cuando sea necesario y se llame solo a ese método.
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+	@JsonManagedReference
 	private List<Nota> nota = new ArrayList<Nota>();
-
 
 	public List<Nota> getNota() {
 		return nota;
