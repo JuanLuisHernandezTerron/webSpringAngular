@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
 import com.notesforme.models.dao.IUsuarioDao;
 import com.notesforme.models.entity.Usuario;
 
+
 @Service
 public class IUsuarioServiceImpl implements IUsuarioService{
-
+	
 	@Autowired
-	private IUsuarioDao usuarioDao;
+	private IUsuarioDao usuarioDao; 
 	
 	@Override
 	public List<Usuario> findAll() {
@@ -41,4 +42,16 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 		usuarioDao.deleteById(id);
 	}
 
+	/**@Override
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = usuarioDao.findByEmail(username);
+		
+		if (usuario == null) {
+			logger.error("ERROR EN EL LOGIN: Usuario No encontrado");
+			throw new UsernameNotFoundException("ERROR EN EL LOGIN: Usuario No encontrado");
+		}
+		
+		return new User(usuario.getEmail(), usuario.getContrasena(), usuario.isEnabled(), true, true, true, null);
+	}**/
 }

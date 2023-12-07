@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.notesforme.models.entity.Usuario;
 
-public interface IUsuarioService {
+public interface IUsuarioService{
 	public List<Usuario> findAll();
 	
 	/**
@@ -21,6 +21,4 @@ public interface IUsuarioService {
 	public Usuario save(Usuario usuario);
 	
 	public void deleteById(String id);
-	
-	
 }

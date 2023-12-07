@@ -30,9 +30,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.notesforme.models.entity.AuthResponse;
 import com.notesforme.models.entity.Usuario;
+import com.notesforme.models.entity.loginRequest;
 import com.notesforme.models.services.IUploadIMG;
 import com.notesforme.models.services.IUsuarioService;
+import com.notesforme.models.services.JwtService;
+import com.notesforme.Bcrypt.serviceBcrypt;
 
 import jakarta.validation.Valid;
 
@@ -46,6 +50,12 @@ public class UsuarioRestController {
 	
 	@Autowired
 	private IUploadIMG ImgService;
+	
+	@Autowired
+	private JwtService jwtService;
+	
+	@Autowired
+	private serviceBcrypt BcryptService;
 
 	@GetMapping("/getAllUsuarios")
 	public List<Usuario> getUsuarios() {
@@ -68,7 +78,6 @@ public class UsuarioRestController {
 	 * Utilizamos @PathVariable para recojer el id del parametro
 	 * Utilizamos ResponseEntity PARA EL MANEJO DE ERRORES, POSTERIORMENTE ENTRE <> PONEMOS ?, ya que se puede asociar a un obejto,string etc..
 	 * ?(Sería como el any, un tipo genérico).
-	 * 
 	 */
 	@GetMapping("/getInfoUser/{id}")
 	public ResponseEntity<?> getInfoUser(@PathVariable String id) {
@@ -90,7 +99,18 @@ public class UsuarioRestController {
 		return new ResponseEntity<Usuario>(usuario,HttpStatus.OK);
 	}
 	
-	@PostMapping("/inserUser")
+	/**
+	 * *Devuelvo el token, que en este caso es AuthResponse
+	 * @param login
+	 * @return
+	 */
+	@PostMapping("/auth/cliente/login")
+	public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody loginRequest login){
+		System.out.println(login.getContrasena());
+		return null;
+	}
+	
+	@PostMapping("/auth/cliente/registerUser")
 	/*
 	* Utilizamos @ResponseStatus para que el codigo 201 quede OK en la peticion.
 	* Utilizamos @RequestBody para cojer el json que nos envia el front
@@ -118,14 +138,16 @@ public class UsuarioRestController {
 		}
 		
 		try {
+			usuario.setContrasena(BcryptService.contrasenaEncrypt(usuario.getContrasena()));
 			usuarioNew = UsuarioService.save(usuario);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al crear el usuario");
 			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		return new ResponseEntity<Usuario>(usuarioNew,HttpStatus.CREATED);
+		response.put("token",jwtService.getToken(usuarioNew));
+		System.out.println(jwtService.getToken(usuarioNew));
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
 	
 	/*
@@ -252,5 +274,6 @@ public class UsuarioRestController {
 
 		return new ResponseEntity<Resource>(resource,cabecera,HttpStatus.OK);
 	}
+	
 
 }

@@ -2,8 +2,12 @@ package com.notesforme.models.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,7 +25,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable,UserDetails {
 
 	@Id
 	private String dni;
@@ -41,6 +45,7 @@ public class Usuario implements Serializable {
 	private String email;
 	
 	@NotEmpty
+	@Column(length = 60)
 	private String contrasena;
 	
 	@NotNull(message = "La fecha no puede ser nula")
@@ -48,6 +53,7 @@ public class Usuario implements Serializable {
 	private Date FechaNacimiento;
 	
 	private String img_Perfil;
+	private boolean enabled;
 	
 	//Utilizamos carga perezosa, para que solo lo utilizemos cuando sea necesario y se llame solo a ese método.
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario_id")
@@ -123,8 +129,49 @@ public class Usuario implements Serializable {
 		this.img_Perfil = imgPerfil;
 	}
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		return contrasena;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+
 }
