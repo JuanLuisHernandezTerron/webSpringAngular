@@ -5,18 +5,19 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
 	
-	private final static String secrectKey = "x\"t)J=7J£o=£\\87g2o<0WgY6}Tm6z`!)l~/ui:pr7\\CFD0{0wH";
+	private final static SecretKey secrectKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	/**
 	 * En este método estamos generando el token.
 	 * @param usuario Recibimos por parametro toda la información por parámetro.
@@ -50,7 +51,6 @@ public class JwtService {
 	 * @return Transformamos nuestra SecretKey en bash64 y la devolvemos
 	 */
 	private Key getKey() {
-		byte[] keyBytes = Decoders.BASE64.decode(secrectKey);
-		return Keys.hmacShaKeyFor(keyBytes);
+		return Keys.hmacShaKeyFor(secrectKey.getEncoded());
 	}
 }

@@ -17,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.notesforme.models.entity.AuthResponse;
+import com.notesforme.models.dao.IUsuarioDao;
 import com.notesforme.models.entity.Usuario;
 import com.notesforme.models.entity.loginRequest;
 import com.notesforme.models.services.IUploadIMG;
@@ -45,6 +48,13 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api")
 public class UsuarioRestController {
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private IUsuarioDao IDaoUser;
+	
 	@Autowired
 	private IUsuarioService UsuarioService;
 	
@@ -104,10 +114,24 @@ public class UsuarioRestController {
 	 * @param login
 	 * @return
 	 */
-	@PostMapping("/auth/cliente/login")
-	public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody loginRequest login){
-		System.out.println(login.getContrasena());
-		return null;
+	@PostMapping("/auth/cliente/loginUser")
+	public ResponseEntity<Map<String,Object>> loginUser(@Valid @RequestBody loginRequest login){
+		System.out.println("holaaa");
+
+		Map<String, Object> response = new HashMap<>();
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getContrasena()));
+		System.out.println("holaaa1");
+		UserDetails user = IDaoUser.findByEmail(login.getEmail());
+		System.out.println("holaaa2");
+		String token = jwtService.getToken(user);
+		System.out.println("holaaa3");
+		if (token != null) {
+			response.put("token",token);
+		}else{
+			response.put("mensaje","Usuario con email ".concat(login.getEmail()).concat(" No ha sido encontrado en nuestra base de datos"));
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
 	}
 	
 	@PostMapping("/auth/cliente/registerUser")

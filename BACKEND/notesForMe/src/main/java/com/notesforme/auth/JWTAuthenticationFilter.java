@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter{
 
+	
 	/**
 	 * Extendemos de OncePerRequestFilter, para hacer filtros personalizados y que solo lo haga 1 vez por petición,
 	 * primero vemos si el token es nulo, si es nulo, cada vez que hacen una petición, filterChain permite que el filtro pase la
@@ -21,7 +22,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {	
 		final String token = getTokenRequest(request);
-		
+				
 		if (token == null) {
 			filterChain.doFilter(request, response);
 			return;
