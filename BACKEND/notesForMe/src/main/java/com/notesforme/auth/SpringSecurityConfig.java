@@ -8,16 +8,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SpringSecurityConfig{
-	
-	
-	/*private JWTAuthenticationFilter jwtAuthenticationFilter;*/
-	
+		
 	@Autowired
 	private AuthenticationProvider authProvider;
+	private final JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
 	
 	/**
 	 * Solo podremos hacer las peticiones sin autenticarnos, la de login y registro del usuario,
@@ -29,7 +31,7 @@ public class SpringSecurityConfig{
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+         http
                 .csrf(csrf -> 
                     csrf
                     .disable())
@@ -42,7 +44,7 @@ public class SpringSecurityConfig{
                     sessionManager 
                       .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
-                /*.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)*/
-                .getOrBuild();
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); 
+        return http.build();
 	}
 }

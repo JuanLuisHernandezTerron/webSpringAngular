@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -47,6 +48,8 @@ public class Usuario implements Serializable,UserDetails {
 	@NotEmpty
 	@Column(length = 60)
 	private String contrasena;
+	
+	private Role role;
 	
 	@NotNull(message = "La fecha no puede ser nula")
 	@Column(name = "fecha_nacimiento")
@@ -139,8 +142,7 @@ public class Usuario implements Serializable,UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return List.of(new SimpleGrantedAuthority(role.name()));
 	}
 
 	@Override
@@ -168,6 +170,14 @@ public class Usuario implements Serializable,UserDetails {
 		return true;
 	}
 	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	/**
 	 * 
 	 */

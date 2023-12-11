@@ -115,20 +115,16 @@ public class UsuarioRestController {
 	 * @return
 	 */
 	@PostMapping("/auth/cliente/loginUser")
-	public ResponseEntity<Map<String,Object>> loginUser(@Valid @RequestBody loginRequest login){
-		System.out.println("holaaa");
-
+	public ResponseEntity<?> loginUser(@Valid @RequestBody loginRequest login){
 		Map<String, Object> response = new HashMap<>();
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getContrasena()));
-		System.out.println("holaaa1");
 		UserDetails user = IDaoUser.findByEmail(login.getEmail());
-		System.out.println("holaaa2");
-		String token = jwtService.getToken(user);
-		System.out.println("holaaa3");
-		if (token != null) {
-			response.put("token",token);
+		if (BcryptService.verifyPasswd(login.getContrasena(), user.getPassword()) == true) {
+			/*response.put("token",token);*/
+			System.out.println("hola psswd correct");
 		}else{
-			response.put("mensaje","Usuario con email ".concat(login.getEmail()).concat(" No ha sido encontrado en nuestra base de datos"));
+			System.out.println("hola");
+			response.put("mensaje","Datos introducidos incorrectamente!");
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);
@@ -169,8 +165,7 @@ public class UsuarioRestController {
 			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("token",jwtService.getToken(usuarioNew));
-		System.out.println(jwtService.getToken(usuarioNew));
+		response.put("token",jwtService.generatedToken(usuarioNew));
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
 	
