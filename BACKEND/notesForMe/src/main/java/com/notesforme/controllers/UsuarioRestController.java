@@ -18,8 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +42,13 @@ import com.notesforme.models.services.JwtService;
 import com.notesforme.Bcrypt.serviceBcrypt;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class UsuarioRestController {
 	
 	@Autowired
@@ -117,13 +119,17 @@ public class UsuarioRestController {
 	@PostMapping("/auth/cliente/loginUser")
 	public ResponseEntity<?> loginUser(@Valid @RequestBody loginRequest login){
 		Map<String, Object> response = new HashMap<>();
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getContrasena()));
-		UserDetails user = IDaoUser.findByEmail(login.getEmail());
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getContrasena()));			
+		} catch (DisabledException e) {
+			response.put("mensaje", e.getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
+		}
+		var user = IDaoUser.findByEmail(login.getEmail());
+		String token = jwtService.generatedToken(user);
 		if (BcryptService.verifyPasswd(login.getContrasena(), user.getPassword()) == true) {
-			/*response.put("token",token);*/
-			System.out.println("hola psswd correct");
+			response.put("token",token);
 		}else{
-			System.out.println("hola");
 			response.put("mensaje","Datos introducidos incorrectamente!");
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.BAD_REQUEST);
 		}
