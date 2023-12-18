@@ -11,13 +11,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 import com.notesforme.models.dao.IUsuarioDao;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
+public class ApplicationConfig{
 	
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -42,6 +43,6 @@ public class ApplicationConfig {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return username -> usuarioDao.findByEmail(username);
+		return username ->usuarioDao.findByEmail(username);
 	}
 }

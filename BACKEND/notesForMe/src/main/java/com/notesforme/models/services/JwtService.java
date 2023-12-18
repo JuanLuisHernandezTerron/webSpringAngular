@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class JwtService {
 
 	private static final String secrectKey = "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9";
+	
+    @PostConstruct
+    public void init() {
+        System.out.println("JwtService ha sido cargado");
+    }
 	
 	/**
 	 * *Verificamos si el token es valido
@@ -29,6 +34,8 @@ public class JwtService {
 	 */
 	public boolean isValidToken(String token,UserDetails userDetails) {
 		final String username = extractEmailUsername(token);
+		System.out.println(userDetails);
+		System.out.println(token);
 		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 	
@@ -73,8 +80,8 @@ public class JwtService {
 	 * método que obtiene el sujeto (generalmente el nombre de usuario) de los
 	 * claims
 	 */
+	
 	public String extractEmailUsername(String token) {
-		System.out.println("holaaaa");
 		return extractClaim(token, Claims::getSubject);
 	}
 
