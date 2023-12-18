@@ -19,7 +19,7 @@ import jakarta.annotation.PostConstruct;
 @Service
 public class JwtService {
 
-	private static final String secrectKey = "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9";
+	private String secrectKey = "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9";
 	
     @PostConstruct
     public void init() {
