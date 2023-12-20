@@ -9,13 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeaderNotesForMeComponent } from './common/components/header-notes-for-me/header-notes-for-me.component';
 import { FooterNotesForMeComponent } from './common/components/footer-notes-for-me/footer-notes-for-me.component';
-import { MainWebComponent } from './pages/main-web/main-web.component';
 @NgModule({
   declarations: [
     AppComponent,
     FooterNotesForMeComponent,
-    HeaderNotesForMeComponent,
-    MainWebComponent
+    HeaderNotesForMeComponent
   ],
   imports: [
     BrowserModule,
@@ -30,4 +28,8 @@ import { MainWebComponent } from './pages/main-web/main-web.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor () {
+    console.log("appmodule loaded")
+  }
+}

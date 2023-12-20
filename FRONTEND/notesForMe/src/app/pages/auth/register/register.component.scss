@@ -1,0 +1,28 @@
+.notesforme{
+    &-background{
+        background-image: url("./../../../../assets/img/man-593333_1280.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        filter: grayscale(50%);
+    }
+
+    &-titulo{
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 60px;
+    }
+}
+
+::ng-deep .mat-mdc-card{
+    background-color: #ffffff !important;
+}
+
+p{
+    font-size: 15px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+h2,h4{
+    font-family: 'Josefin Sans', sans-serif;
+}

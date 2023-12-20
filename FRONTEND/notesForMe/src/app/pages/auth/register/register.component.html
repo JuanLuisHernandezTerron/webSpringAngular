@@ -1,0 +1,66 @@
+<div class="container-fluid notesforme">
+    <div class="row notesforme-background justify-content-around">
+        <div class="col-6 mt-4 mb-4">
+                    <h2 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h2>
+                    <div>
+                        <h4 class="fw-bold ms-5 p-2 text-white">Accesibilidad desde cualquier lugar</h4>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold ms-5 p-2 text-white">Sincronización automática</h4>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold ms-5 p-2 text-white">Colaboración en tiempo real</h4>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold ms-5 p-2 text-white">Soporte Multiplataforma y Navegadores</h4>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold ms-5 p-2 text-white">Seguridad y privacidad</h4>
+                    </div>
+        </div>
+        <div class="col-6 mt-5 mb-5 d-flex align-items-center justify-content-center">
+            <mat-card class="w-50">
+                <form class="d-flex flex-column" [formGroup]="sendRegister" (submit)="enviarFormulario()">
+                   <mat-form-field class="mt-4 w-75 m-auto">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="Introduzca Nombre" formControlName="nombre">
+                        <mat-error>Nombre es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput placeholder="Introduzca Apellidos" formControlName="apellidos">
+                        <mat-error>Apellidos es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Introduzca Email" formControlName="email">
+                        <mat-error>Email es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>DNI</mat-label>
+                        <input matInput placeholder="Introduzca DNI" formControlName="dni">
+                        <mat-error>DNI es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Fecha Nacimiento</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="Introduzca Fecha de Nacimiento" formControlName="contrasena">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-error>FechaNacimiento es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput placeholder="Introduzca Contraseña" formControlName="contrasena">
+                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Repita Contraseña</mat-label>
+                        <input matInput placeholder="Introduzca la Contraseña de nuevo" formControlName="contrasenaAUX">
+                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <button [disabled]="true" mat-raised-button color="primary" class="mt-3 w-50 m-auto mb-2">Registrarme</button>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>

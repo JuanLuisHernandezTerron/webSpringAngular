@@ -8,9 +8,9 @@ import { Usuario } from '../models/usuario';
 export class ServiceUserService {
   constructor(private http: HttpClient) { }
 
-  private url:string = "http://localhost:8080/api/getAllUsuarios";
+  private url:string = "http://localhost:8080/api/";
 
-  getUsuarios():Observable<Usuario[]>{
+  /*getUsuarios():Observable<Usuario[]>{
     return this.http.get<Usuario[]>(this.url);
-  }
+  }*/
 }

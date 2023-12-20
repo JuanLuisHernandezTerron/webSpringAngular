@@ -8,6 +8,7 @@ import { ServiceUserService } from 'src/app/services/service-user.service';
 export class MainWebComponent implements OnInit{
   constructor (private serviceUser:ServiceUserService) {}
   ngOnInit(): void {
-    this.serviceUser.getUsuarios().subscribe(data=>console.log(data));
+    /*this.serviceUser.getUsuarios().subscribe(data=>console.log(data));*/
+    console.log("holaaa")
   }
 }
