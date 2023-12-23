@@ -17,6 +17,11 @@
     background-color: #ffffff !important;
 }
 
+::ng-deep .mat-mdc-raised-button.mat-primary:not(:disabled){
+    background-color: rgb(212, 212, 100) !important;
+    color: black !important;
+}
+
 p{
     font-size: 15px;
     margin-left: 20%;
@@ -26,3 +31,4 @@ p{
 h2,h4{
     font-family: 'Josefin Sans', sans-serif;
 }
+ 

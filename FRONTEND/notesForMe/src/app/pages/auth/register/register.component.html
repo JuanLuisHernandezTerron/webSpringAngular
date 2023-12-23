@@ -1,21 +1,21 @@
 <div class="container-fluid notesforme">
-    <div class="row notesforme-background justify-content-around">
+    <div class="row notesforme-background align-items-center justify-content-around">
         <div class="col-6 mt-4 mb-4">
-                    <h2 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h2>
+                    <h1 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h1>
                     <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">Accesibilidad desde cualquier lugar</h4>
+                        <h4 class="fw-bold ms-5 p-2 text-white">1º Accesibilidad desde cualquier lugar</h4>
                     </div>
                     <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">Sincronización automática</h4>
+                        <h4 class="fw-bold ms-5 p-2 text-white">2º Sincronización automática</h4>
                     </div>
                     <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">Colaboración en tiempo real</h4>
+                        <h4 class="fw-bold ms-5 p-2 text-white">3º Colaboración en tiempo real</h4>
                     </div>
                     <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">Soporte Multiplataforma y Navegadores</h4>
+                        <h4 class="fw-bold ms-5 p-2 text-white">4º Soporte Multiplataforma y Navegadores</h4>
                     </div>
                     <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">Seguridad y privacidad</h4>
+                        <h4 class="fw-bold ms-5 p-2 text-white">5º Seguridad y privacidad</h4>
                     </div>
         </div>
         <div class="col-6 mt-5 mb-5 d-flex align-items-center justify-content-center">
@@ -43,22 +43,27 @@
                     </mat-form-field>
                     <mat-form-field class="w-75 m-auto">
                         <mat-label>Fecha Nacimiento</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="Introduzca Fecha de Nacimiento" formControlName="contrasena">
+                        <input matInput formControlName="fechaNacimiento" [matDatepicker]="picker">
                         <mat-hint>MM/DD/YYYY</mat-hint>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                         <mat-error>FechaNacimiento es <strong>REQUERIDO</strong></mat-error>
                     </mat-form-field>
                     <mat-form-field class="w-75 m-auto">
                         <mat-label>Contraseña</mat-label>
-                        <input matInput placeholder="Introduzca Contraseña" formControlName="contrasena">
-                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                        <input type="password" matInput placeholder="Introduzca Contraseña" formControlName="contrasena">
+                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>                       
                     </mat-form-field>
                     <mat-form-field class="w-75 m-auto">
                         <mat-label>Repita Contraseña</mat-label>
-                        <input matInput placeholder="Introduzca la Contraseña de nuevo" formControlName="contrasenaAUX">
-                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                        <input type="password" [type]="hide ? 'password' : 'text'" name="password" matInput placeholder="Introduzca la contraseña de nuevo" formControlName="contrasenaAUX">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide" type="button">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    <mat-error *ngIf="sendRegister.get('contrasenaAUX')?.hasError('passwordMismatch')">Las contraseñas no son <strong>IGUALES</strong></mat-error>
                     </mat-form-field>
-                    <button [disabled]="true" mat-raised-button color="primary" class="mt-3 w-50 m-auto mb-2">Registrarme</button>
+                    <button [disabled]="!this.sendRegister.valid" (click)="this.enviarFormulario()" mat-raised-button color="primary" class="mt-3 w-50 m-auto mb-2">Registrarme</button>
                 </form>
             </mat-card>
         </div>
