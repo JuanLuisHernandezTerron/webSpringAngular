@@ -63,7 +63,7 @@
                         </button>
                     <mat-error *ngIf="sendRegister.get('contrasenaAUX')?.hasError('passwordMismatch')">Las contraseñas no son <strong>IGUALES</strong></mat-error>
                     </mat-form-field>
-                    <button [disabled]="!this.sendRegister.valid" (click)="this.enviarFormulario()" mat-raised-button color="primary" class="mt-3 w-50 m-auto mb-2">Registrarme</button>
+                    <button [disabled]="!this.sendRegister.valid" mat-raised-button color="primary" class="mt-3 w-50 m-auto mb-2">Registrarme</button>
                 </form>
             </mat-card>
         </div>

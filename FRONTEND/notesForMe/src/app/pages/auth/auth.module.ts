@@ -11,6 +11,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './register/register.component';
 import {MatIconModule} from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -29,6 +30,9 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     FormsModule,
     MatIconModule
+  ],
+  providers:[
+    DatePipe
   ]
 })
 export class AuthModule { }

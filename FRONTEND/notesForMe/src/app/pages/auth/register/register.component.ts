@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Usuario } from 'src/app/models/usuario';
 import { role } from 'src/app/models/role';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  constructor(private fb: FormBuilder, private authService:AuthServicesService) {
+  constructor(private fb: FormBuilder, private authService:AuthServicesService,private datepipe:DatePipe) {
     this.validadcionRegister();
   }
 
@@ -48,17 +49,15 @@ export class RegisterComponent implements OnInit {
   }
 
   enviarFormulario(): void {
-    const fechaComoString: string = this?.sendRegister?.get("fechaNacimiento")?.value.toISOString();
-
-    this.usuario.email = this?.sendRegister?.get("email")?.value;
+    let fechaComoString:Date = this?.sendRegister?.get("fechaNacimiento")?.value;
+    this.usuario.dni = this?.sendRegister?.get("dni")?.value;
     this.usuario.nombre = this?.sendRegister?.get("nombre")?.value;
     this.usuario.apellidos = this?.sendRegister?.get("apellidos")?.value;
-    this.usuario.FechaNacimiento = fechaComoString;
+    this.usuario.email = this?.sendRegister?.get("email")?.value;
     this.usuario.contrasena = this?.sendRegister?.get("contrasena")?.value;
-    this.usuario.enabled = true;
     this.usuario.role = role.USER;
-    this.authService.register(this.usuario).subscribe(m=>console.log(m));  
-    console.log(this.usuario.FechaNacimiento);
-    
+    this.usuario.enabled = true;
+    this.usuario.fechaNacimiento = fechaComoString.toUTCString();
+    this.authService.register(this.usuario).subscribe();
   }
 }

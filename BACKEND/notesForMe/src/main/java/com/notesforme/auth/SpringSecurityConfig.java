@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +38,7 @@ public class SpringSecurityConfig{
                 .csrf(csrf -> 
                     csrf
                     .disable())
+                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(authRequest ->
                   authRequest
                     .requestMatchers("api/auth/cliente/**").permitAll()

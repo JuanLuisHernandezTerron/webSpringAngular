@@ -1,7 +1,6 @@
 package com.notesforme.models.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +11,7 @@ import com.notesforme.models.entity.Usuario;
 
 @Service
 public class UserServiceDetailsImp implements UserDetailsService{
-
-
+	
 	Usuario usuario = null;
 	private static IUsuarioDao usuDao;
 	
@@ -29,15 +27,12 @@ public class UserServiceDetailsImp implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			System.out.println(getUsuarioDao());
 			usuario = getUsuarioDao().findByEmail(username);
-			System.out.println(usuario);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw new UsernameNotFoundException("Usuario No encontrado");
 		}
 		UserDetails User = usuario;
-		System.out.println(User);
 		return User;
 	}
 }

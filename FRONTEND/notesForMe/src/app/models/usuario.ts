@@ -6,7 +6,7 @@ export interface Usuario {
     apellidos:string,
     email:string,
     contrasena:string,
-    FechaNacimiento:string,
     role:role,
     enabled:boolean,
+    fechaNacimiento:string,
 }
