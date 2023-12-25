@@ -12,11 +12,13 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './register/register.component';
 import {MatIconModule} from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   declarations: [
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

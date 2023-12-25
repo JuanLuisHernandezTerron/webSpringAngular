@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit {
     this.usuario.role = role.USER;
     this.usuario.enabled = true;
     this.usuario.fechaNacimiento = fechaComoString.toUTCString();
-    this.authService.register(this.usuario).subscribe();
+    this.authService.register(this.usuario).subscribe(x=> localStorage.setItem("token",x.token));
+    
   }
 }
