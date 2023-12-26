@@ -123,6 +123,7 @@ public class UsuarioRestController {
 	 * @return
 	 */
 	@PostMapping("/auth/cliente/loginUser")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> loginUser(@Valid @RequestBody loginRequest login) {
 		Map<String, Object> response = new HashMap<>();
 		try {
@@ -136,6 +137,7 @@ public class UsuarioRestController {
 		String token = jwtService.generatedToken(user);
 		if (BcryptService.verifyPasswd(login.getContrasena(), user.getPassword()) == true) {
 			response.put("token", token);
+			response.put("usuario",user);
 		} else {
 			response.put("mensaje", "Datos introducidos incorrectamente!");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);

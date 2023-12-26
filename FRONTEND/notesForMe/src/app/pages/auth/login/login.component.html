@@ -1,0 +1,38 @@
+<div class="container notesForMe">
+    <div class="row">
+        <div class="col-7 notesForMe-img text-center d-flex flex-column align-items-center justify-content-center">
+            <h1 class="text-white fw-bold notesForMe-titulo">NoteForMe</h1>
+            <h1 class="text-white fw-bold">La web de notas que da forma a tus ideas</h1>
+        </div>
+        <div class="col-5">
+            <mat-card class="notesForMe-form d-flex justify-content-center">
+                <h1 class="text-center">Login</h1>
+                <form class="d-flex flex-column" [formGroup]="sendLogin" (submit)="enviarFormulario()">
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Introduzca Email" formControlName="email">
+                        <mat-error>Email es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-75 m-auto">
+                        <mat-label>Contraseña</mat-label>
+                        <input type="password" [type]="hide ? 'password' : 'text'" matInput
+                            placeholder="Introduzca Contraseña" formControlName="contrasena">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide" type="button">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                    </mat-form-field>
+                    <p class="fs-6 text-end me-5 pe-3">¿Has olvidado tu password?<strong class="text-primary">!CLICK
+                            AQUÍ¡</strong></p>
+                    <button [disabled]="!this.sendLogin.valid" mat-raised-button color="primary"
+                        class="mt-3 w-75 m-auto mb-2">Login</button>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="progressSpinner" class="overlay-spinner">
+    <div class="loader"></div>
+</div>

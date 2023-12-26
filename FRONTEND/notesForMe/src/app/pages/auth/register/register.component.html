@@ -1,25 +1,26 @@
 <div class="container-fluid notesforme">
     <div class="row notesforme-background align-items-center justify-content-around">
         <div class="col-6 mt-4 mb-4">
-                    <h1 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h1>
-                    <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">1º Accesibilidad desde cualquier lugar</h4>
-                    </div>
-                    <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">2º Sincronización automática</h4>
-                    </div>
-                    <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">3º Colaboración en tiempo real</h4>
-                    </div>
-                    <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">4º Soporte Multiplataforma y Navegadores</h4>
-                    </div>
-                    <div>
-                        <h4 class="fw-bold ms-5 p-2 text-white">5º Seguridad y privacidad</h4>
-                    </div>
+            <h1 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h1>
+            <div>
+                <h4 class="fw-bold ms-5 p-2 text-white">1º Accesibilidad desde cualquier lugar</h4>
+            </div>
+            <div>
+                <h4 class="fw-bold ms-5 p-2 text-white">2º Sincronización automática</h4>
+            </div>
+            <div>
+                <h4 class="fw-bold ms-5 p-2 text-white">3º Colaboración en tiempo real</h4>
+            </div>
+            <div>
+                <h4 class="fw-bold ms-5 p-2 text-white">4º Soporte Multiplataforma y Navegadores</h4>
+            </div>
+            <div>
+                <h4 class="fw-bold ms-5 p-2 text-white">5º Seguridad y privacidad</h4>
+            </div>
         </div>
         <div class="col-6 mt-5 mb-5 d-flex align-items-center justify-content-center">
             <mat-card class="w-50">
+                <h1 class="text-center mt-2">Registro</h1>
                 <form class="d-flex flex-column" [formGroup]="sendRegister" (submit)="enviarFormulario()">
                    <mat-form-field class="mt-4 w-75 m-auto">
                         <mat-label>Nombre</mat-label>
@@ -68,4 +69,8 @@
             </mat-card>
         </div>
     </div>
+</div>
+
+<div *ngIf="progressSpinner" class="overlay-spinner">
+    <div class="loader"></div>
 </div>

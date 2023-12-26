@@ -1,0 +1,42 @@
+.notesForMe{
+    min-height: 42vw;
+    &-img{
+        min-height: 42vw;
+        background-image: url("./../../../../assets/img/joven-mujer-negocios-atractiva-sonriente-que-usa-notas-post-it-pared-vidrio-escribir-plan-negocios-estrategia-que-desarrollo-crezca-exito_44344-4493.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        border-radius: 10px;
+        filter: grayscale(30%);
+    }
+
+    &-titulo{
+        font-size: 60px;
+    }
+
+    &-form{
+        min-height: 45vw;
+        background-color: rgba(255, 255, 175, 0.288);
+    }
+}
+
+button{
+    height: 40px !important;
+}
+
+h1,p{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+p{
+    font-size: 10px;
+}
+
+strong:hover{
+    cursor: pointer;
+}
+
+::ng-deep .mat-mdc-raised-button.mat-primary:not(:disabled){
+    background-color: rgb(224, 224, 95) !important;
+    color: black !important;
+}

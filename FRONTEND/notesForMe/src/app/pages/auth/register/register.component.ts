@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   sendRegister !: FormGroup;
   hide = true;
   usuario: Usuario = {} as Usuario;
+  progressSpinner: boolean = false;
 
   public showPassword: boolean = false;
   ngOnInit() {
@@ -49,6 +50,7 @@ export class RegisterComponent implements OnInit {
   }
 
   enviarFormulario(): void {
+    this.progressSpinner = true;
     let fechaComoString:Date = this?.sendRegister?.get("fechaNacimiento")?.value;
     this.usuario.dni = this?.sendRegister?.get("dni")?.value;
     this.usuario.nombre = this?.sendRegister?.get("nombre")?.value;
@@ -58,7 +60,16 @@ export class RegisterComponent implements OnInit {
     this.usuario.role = role.USER;
     this.usuario.enabled = true;
     this.usuario.fechaNacimiento = fechaComoString.toUTCString();
-    this.authService.register(this.usuario).subscribe(x=> localStorage.setItem("token",x.token));
-    
+    this.authService.register(this.usuario).subscribe(
+    response=>{
+      localStorage.setItem("token",response.token);
+      this.progressSpinner = false;
+      console.log(response);
+      
+    },
+    err=>{
+      console.log(err);
+      this.progressSpinner = false;
+    });
   }
 }

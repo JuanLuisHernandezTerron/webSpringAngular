@@ -9,8 +9,13 @@ import {responsePost} from "./../../models/responsePost";
 export class AuthServicesService {
   constructor(private http: HttpClient) { }
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+
   
   register(usuario:Usuario):Observable<responsePost>{    
     return this.http.post<responsePost>('http://localhost:8080/api/auth/cliente/registerUser',usuario,{headers:this.httpHeaders});
+  }
+
+  login(userLogin:any):Observable<responsePost>{
+    return this.http.post<responsePost>('http://localhost:8080/api/auth/cliente/loginUser',userLogin,{headers:this.httpHeaders});
   }
 }

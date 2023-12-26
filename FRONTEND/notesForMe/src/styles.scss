@@ -2,6 +2,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-.material-icons{
+.material-icons {
     font-family: 'Material Icons' !important;
+}
+
+@keyframes load8 {
+    // 0% {
+    //     stroke: $secondary-color;
+    // }
+    // 100%{
+    //     stroke: #004375;
+    // }
+  
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    50% {
+      border-top: 0.4em solid #fffb00;
+      border-right: 0.4em solid #fffb00;
+      border-bottom: 0.4em solid #fffb00;
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+
+.overlay-spinner {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+
+    .loader {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        margin-top: -50px;
+        top: 50%;
+        margin-left: -50px;
+        left: 50%;
+        position: absolute;
+        border-top: 0.4em solid #d2d17b;
+        border-right: 0.4em solid #d2d17b;
+        border-bottom: 0.4em solid #d2d17b;
+        border-left: 0.4em solid transparent;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load8 1.4s infinite linear;
+        animation: load8 1.4s infinite linear;
+
+        &:after {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+    }
 }
