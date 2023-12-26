@@ -1,6 +1,6 @@
-<div class="container-fluid notesforme">
-    <div class="row notesforme-background align-items-center justify-content-around">
-        <div class="col-6 mt-4 mb-4">
+<div class="container notesforme">
+    <div class="row align-items-center justify-content-around">
+        <div class="col-7 mt-4 mb-4 notesforme-background">
             <h1 class="text-center mb-3 text-white fw-bold mt-3">Por que debes utilizar NotesForMe</h1>
             <div>
                 <h4 class="fw-bold ms-5 p-2 text-white">1º Accesibilidad desde cualquier lugar</h4>
@@ -18,8 +18,8 @@
                 <h4 class="fw-bold ms-5 p-2 text-white">5º Seguridad y privacidad</h4>
             </div>
         </div>
-        <div class="col-6 mt-5 mb-5 d-flex align-items-center justify-content-center">
-            <mat-card class="w-50">
+        <div class="col-5 mt-5 mb-5">
+            <mat-card class="d-flex justify-content-center notesforme-form">
                 <h1 class="text-center mt-2">Registro</h1>
                 <form class="d-flex flex-column" [formGroup]="sendRegister" (submit)="enviarFormulario()">
                    <mat-form-field class="mt-4 w-75 m-auto">

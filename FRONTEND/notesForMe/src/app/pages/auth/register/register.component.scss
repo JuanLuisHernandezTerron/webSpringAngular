@@ -1,15 +1,23 @@
 .notesforme{
+    min-height: 30vw;
     &-background{
+        min-height: 30vw;
         background-image: url("./../../../../assets/img/man-593333_1280.jpg");
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
         filter: grayscale(50%);
+        border-radius: 10px;
     }
 
     &-titulo{
         font-family: 'Josefin Sans', sans-serif;
         font-size: 60px;
+    }
+
+    &-form{
+        min-height: 30vw;
+        background-color: rgba(255, 255, 175, 0.288);
     }
 }
 
@@ -30,6 +38,10 @@ p{
 
 h1,h2,h4{
     font-family: 'Josefin Sans', sans-serif;
+}
+
+button{
+    height: 40px !important;
 }
 
 
