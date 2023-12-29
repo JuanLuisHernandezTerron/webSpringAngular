@@ -1,0 +1,9 @@
+<div class="container-fluid row">
+    <mat-drawer-container class="col-12 example-container">
+        <h1 class="text-center">{{this.comprobarHora()}}</h1>
+        <mat-drawer #drawer class="example-sidenav" mode="side">
+            <h1>Perfil</h1>
+        </mat-drawer>
+        <mat-icon #changeIcon (click)="this.bollIcon()" matTooltip="Información">{{this.showFiller ? 'arrow_back_ios' : 'arrow_forward_ios'}}</mat-icon>
+    </mat-drawer-container>
+</div>

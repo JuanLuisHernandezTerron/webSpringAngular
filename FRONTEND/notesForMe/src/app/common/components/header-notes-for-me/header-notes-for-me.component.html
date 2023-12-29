@@ -4,7 +4,8 @@
         <h2 class="col-6 ">NotesForMe</h2>
     </div>
     <div class="row align-items-center d-flex justify-content-between">
-        <h5 class="col-6" [routerLink]="['/auth/login']">Login</h5>
-        <h5 class="col-6" [routerLink]="['/auth/register']">Register</h5>
+        <h5 class="col-6" *ngIf="!isLogged" [routerLink]="['/auth/login']">Login</h5>
+        <h5 class="col-6" *ngIf="!isLogged" [routerLink]="['/auth/register']">Register</h5>
+        <mat-icon class="col-6 w-100" matTooltip="Cerrar Sesión" *ngIf="isLogged" (click)="this.logout()">logout</mat-icon>
     </div>
 </header>

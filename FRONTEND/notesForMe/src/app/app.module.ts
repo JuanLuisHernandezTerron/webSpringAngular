@@ -7,17 +7,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 import { AppComponent } from './app.component';
 import { HeaderNotesForMeComponent } from './common/components/header-notes-for-me/header-notes-for-me.component';
 import { FooterNotesForMeComponent } from './common/components/footer-notes-for-me/footer-notes-for-me.component';
+import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main-user-loggin.component';
 @NgModule({
   declarations: [
     AppComponent,
     FooterNotesForMeComponent,
-    HeaderNotesForMeComponent
+    HeaderNotesForMeComponent,
+    MainUserLogginComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,11 @@ import { FooterNotesForMeComponent } from './common/components/footer-notes-for-
     FormsModule,
     MatNativeDateModule,
     MatRippleModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatSidenavModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

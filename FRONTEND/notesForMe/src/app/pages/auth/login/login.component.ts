@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { FormControl,FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +14,7 @@ export class LoginComponent implements  OnInit{
   picker: any;
   progressSpinner: boolean = false;
 
-  constructor (private fb:FormBuilder, private authService:AuthServicesService) { 
+  constructor (private fb:FormBuilder, private authService:AuthServicesService,private route:Router) { 
     this.reactiveFormulario();
   }
   
@@ -40,9 +41,10 @@ export class LoginComponent implements  OnInit{
 
     this.authService.login(usuarioLogin).subscribe(
       response=>{
-        localStorage.setItem("token",response.token);
+        sessionStorage.setItem("token",response.token);
         this.progressSpinner = false;
-              
+        this.route.navigate(['/mainUserLoggin']);
+        this.authService.setLogged();
       },
       err=>{
         console.log(err);

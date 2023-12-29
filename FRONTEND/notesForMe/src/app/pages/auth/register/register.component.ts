@@ -4,6 +4,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { role } from 'src/app/models/role';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,7 +22,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  constructor(private fb: FormBuilder, private authService:AuthServicesService,private datepipe:DatePipe) {
+  constructor(private fb: FormBuilder, private authService:AuthServicesService,private datepipe:DatePipe, private route:Router) {
     this.validadcionRegister();
   }
 
@@ -62,8 +63,9 @@ export class RegisterComponent implements OnInit {
     this.usuario.fechaNacimiento = fechaComoString.toUTCString();
     this.authService.register(this.usuario).subscribe(
     response=>{
-      localStorage.setItem("token",response.token);
+      sessionStorage.setItem("token",response.token);
       this.progressSpinner = false;
+      this.route.navigate(['/mainUserLoggin']);
       console.log(response);
       
     },

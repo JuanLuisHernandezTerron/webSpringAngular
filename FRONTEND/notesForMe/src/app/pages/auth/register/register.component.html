@@ -24,7 +24,7 @@
                 <form class="d-flex flex-column" [formGroup]="sendRegister" (submit)="enviarFormulario()">
                    <mat-form-field class="mt-4 w-75 m-auto">
                         <mat-label>Nombre</mat-label>
-                        <input matInput placeholder="Introduzca Nombre" formControlName="nombre">
+                        <input matInput placeholder="Introduzca Nombre" formControlName="nombre" autofocus>
                         <mat-error>Nombre es <strong>REQUERIDO</strong></mat-error>
                     </mat-form-field>
                     <mat-form-field class="w-75 m-auto">
