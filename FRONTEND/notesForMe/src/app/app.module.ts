@@ -11,7 +11,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { AppComponent } from './app.component';
 import { HeaderNotesForMeComponent } from './common/components/header-notes-for-me/header-notes-for-me.component';
@@ -37,7 +38,9 @@ import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCardModule,
+    MatChipsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
