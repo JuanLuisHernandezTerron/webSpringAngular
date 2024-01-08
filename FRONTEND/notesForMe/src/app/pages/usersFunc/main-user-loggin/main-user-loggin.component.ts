@@ -16,10 +16,10 @@ export class MainUserLogginComponent {
   }
   comprobarHora(): String {
     return (this.HoraActual >= 6 && this.HoraActual <= 12) ?
-      `Hola Buenas Días ${this.nombreUsu}`
+      `Buenas Días ${this.nombreUsu}`
       : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
-        `Hola Buenas Tardes ${this.nombreUsu}`
-        : `Hola Buenas Noches ${this.nombreUsu}`;
+        `Buenas Tardes ${this.nombreUsu}`
+        : `Buenas Noches ${this.nombreUsu}`;
   }
 
 }
