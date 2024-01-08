@@ -6,6 +6,10 @@
     font-family: 'Material Icons' !important;
 }
 
+mat-icon{
+  cursor: pointer;
+}
+
 @keyframes load8 {
     // 0% {
     //     stroke: $secondary-color;
