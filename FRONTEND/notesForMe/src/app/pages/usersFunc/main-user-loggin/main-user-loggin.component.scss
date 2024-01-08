@@ -1,6 +1,36 @@
-.example-container {
+.notesforme {
+  &-icon {
+    transform: scale(1.7);
+    transition: all 0.6s ease-in-out;
+    
+    &-filter {
+      width: 35px;
+      transform: scale(1.1);
+    }
 
+    &-row {
+      bottom: 60px;
+    }
+
+    &:hover {
+      color: rgb(242, 234, 172);
+      transition: all 0.6s ease-in-out;
+    }
+  }
+  
+  &-Notes {
+    background-color: rgb(238, 236, 236) !important;
+    min-height: 35vw;
+    border-top-left-radius: 15px;
+  }
+}
+
+.example-container {
   border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  min-height: 80vw;
 }
 
 .example-sidenav-content {
@@ -16,4 +46,45 @@
 
 h1 {
   font-family: 'Josefin Sans', sans-serif;
+}
+
+mat-drawer {
+  width: 20% !important;
+  color: white;
+  background-color: rgb(0, 0, 0);
+  border-top-left-radius: 15px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+mat-drawer-container {
+  border: none !important;
+  background-color: none !important;
+  background-color: #ffffff;
+}
+
+mat-card{
+  transition: all 0.6s ease-in-out;
+  &:hover{
+    transform: scale(1.02);
+    cursor: pointer;
+  }
+}
+
+p{
+  color: rgb(189, 187, 187) !important;
+}
+
+.divIMG{
+  width: 150px; /* Establece el ancho deseado para el contenedor */
+  height: 100px; /* Establece la altura deseada para el contenedor */
+  overflow: hidden; /* Oculta cualquier contenido que desborde el contenedor */
+}
+
+.divIMG img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen para cubrir completamente el contenedor */
 }
