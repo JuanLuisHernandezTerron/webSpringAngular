@@ -10,6 +10,8 @@ export class MainUserLogginComponent {
   @ViewChild('drawer') openDialog!: any;
   nombreUsu: String = "Juanlu";
   HoraActual: number = new Date().getHours();
+  sizeNotes: number = 1;
+  countNotas: number = 10;
   bollIcon(): void {
     this.openDialog.toggle();
     this.showFiller = !this.showFiller;
