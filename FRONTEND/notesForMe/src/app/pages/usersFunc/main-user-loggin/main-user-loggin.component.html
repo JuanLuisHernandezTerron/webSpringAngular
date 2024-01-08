@@ -1,9 +1,62 @@
-<div class="container-fluid row">
-    <mat-drawer-container class="col-12 example-container">
-        <h1 class="text-center">{{this.comprobarHora()}}</h1>
-        <mat-drawer #drawer class="example-sidenav" mode="side">
-            <h1>Perfil</h1>
-        </mat-drawer>
-        <mat-icon #changeIcon (click)="this.bollIcon()" matTooltip="Información">{{this.showFiller ? 'arrow_back_ios' : 'arrow_forward_ios'}}</mat-icon>
-    </mat-drawer-container>
-</div>
+<h1 class="text-center display-6">{{this.comprobarHora()}}</h1>
+<mat-drawer-container class="col-12 container-fluid row notesforme">
+    <div class="row">
+        <div class="col-1">
+            <mat-icon #changeIcon class="notesforme-icon-row" (click)="this.bollIcon()"
+                matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
+        </div>
+        <div class="col-3 row notesforme-Notes">
+            <div *ngIf="this.sizeNotes == 0" class="col-12 d-flex justify-content-center mt-5">
+                <mat-icon class="notesforme-icon mt-2">add_circle</mat-icon>
+                <h1 class="ms-4">Escribe tu primera NOTA!</h1>
+            </div>
+            <div class="col-12" *ngIf="this.sizeNotes > 0">
+                <div class="row">
+                    <h3 class="col-12 mb-4 mt-2">All Notes</h3>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="">{{this.countNotas}} notes</h6>
+                        <div>
+                            <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter">tune</mat-icon>
+                            <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter">sort</mat-icon>
+                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter">filter_alt</mat-icon>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <mat-card class="row">
+                    <div class="col-12 notesforme-nota-date">
+                        <h6 class="mt-2">JUN 2021</h6>
+                        <hr>
+                        <div class="row align-items-center mb-2">
+                            <div class="col-8">
+                                <h5 class="col-12">Closing the sale</h5>
+                                <p class="text-truncate">Lorem ipsum, dolor sit amet consectetur adipisicing
+                                    elit. Fugit commodi facilis necessitatibus rerum. Magnam accusantium provident
+                                    aliquid itaque placeat? Accusamus vitae ea deserunt accusantium dicta iste error
+                                    facilis voluptatem quae?</p>
+                                <mat-chip-list class="col-3">
+                                    <mat-chip-row disabled>Juan Luis</mat-chip-row>
+                                </mat-chip-list>
+                            </div>
+                            <div class="col-4 divIMG">
+                                <img class="img-fluid notesforme-card-img"
+                                    src="./../../../../assets/img/man-593333_1280.jpg" alt="" srcset="">
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-8 row">
+            <h1>editor</h1>
+            <form id="textNotes">
+                <textarea id="editor">Empieza a escribir</textarea>
+            </form>
+        </div>
+    </div>
+
+
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <h1>Perfil</h1>
+    </mat-drawer>
+</mat-drawer-container>
