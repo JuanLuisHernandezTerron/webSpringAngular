@@ -11,10 +11,14 @@
                 <h1 class="ms-4">Escribe tu primera NOTA!</h1>
             </div>
             <div class="col-12" *ngIf="this.sizeNotes > 0">
+                <!----------------------------------------------FILTROS----------------------------------------------------------------->
                 <div class="row">
-                    <h3 class="col-12 mb-4 mt-2">All Notes</h3>
+                    <div class="col-12 d-flex justify-content-between mb-4 mt-2">
+                        <h3>Tus Notas</h3>
+                        <button mat-raised-button class="notesforme-newNota fw-bold" (click)="this.newNota('200ms', '200ms')">NUEVA NOTA</button>
+                    </div>
                     <div class="d-flex justify-content-between">
-                        <h6 class="">{{this.countNotas}} notes</h6>
+                        <h6 class="">{{this.countNotas}} notas</h6>
                         <div>
                             <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter">tune</mat-icon>
                             <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter">sort</mat-icon>
@@ -23,6 +27,7 @@
                     </div>
                     <hr>
                 </div>
+                <!----------------------------------------------CARDS-NOTES----------------------------------------------------------------->
                 <mat-card class="row">
                     <div class="col-12 notesforme-nota-date">
                         <h6 class="mt-2">JUN 2021</h6>
@@ -47,15 +52,15 @@
                 </mat-card>
             </div>
         </div>
-        <div class="col-8 row">
-            <h1>editor</h1>
-            <form id="textNotes">
-                <textarea id="editor">Empieza a escribir</textarea>
+        <div class="col-8 row notesforme-Editor">
+            <form id="textNotes" class="ms-2" (submit)="this.guardarNota()" >
+                <textarea class="ms-2 " id="editor" rows="35"></textarea>
+                <div class="d-flex justify-content-center">
+                    <button mat-raised-button type="submit" class="m-auto mt-3">Guardar Nota</button>
+                </div>
             </form>
         </div>
     </div>
-
-
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <h1>Perfil</h1>
     </mat-drawer>

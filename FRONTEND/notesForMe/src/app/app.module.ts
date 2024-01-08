@@ -13,17 +13,21 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { HeaderNotesForMeComponent } from './common/components/header-notes-for-me/header-notes-for-me.component';
 import { FooterNotesForMeComponent } from './common/components/footer-notes-for-me/footer-notes-for-me.component';
 import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main-user-loggin.component';
+import { NuevaNotaComponent } from './dialogs/nueva-nota/nueva-nota.component';
 @NgModule({
   declarations: [
     AppComponent,
     FooterNotesForMeComponent,
     HeaderNotesForMeComponent,
     MainUserLogginComponent,
+    NuevaNotaComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +45,8 @@ import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main
     MatSidenavModule,
     MatCardModule,
     MatChipsModule,
+    MatDialogModule,
+    MatInputModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
