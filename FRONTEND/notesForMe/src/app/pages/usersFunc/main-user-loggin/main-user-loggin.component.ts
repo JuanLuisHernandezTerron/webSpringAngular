@@ -1,6 +1,8 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import {MatDialog,MatDialogRef,MatDialogActions,MatDialogClose,MatDialogTitle,MatDialogContent} from '@angular/material/dialog';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { NuevaNotaComponent } from 'src/app/dialogs/nueva-nota/nueva-nota.component';
+import { usuarioBack } from 'src/app/models/usuarioBack';
+import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 declare var tinymce: any;
 
 @Component({
@@ -8,16 +10,22 @@ declare var tinymce: any;
   templateUrl: './main-user-loggin.component.html',
   styleUrls: ['./main-user-loggin.component.scss']
 })
-export class MainUserLogginComponent implements AfterViewInit {
+export class MainUserLogginComponent implements AfterViewInit,OnInit {
   showFiller = true;
   @ViewChild('drawer') openDialog!: any;
-  nombreUsu: String = "Juanlu";
   HoraActual: number = new Date().getHours();
   sizeNotes: number = 1;
   countNotas: number = 10;
+  usuarioInfo: usuarioBack;
+  constructor(private dialog: MatDialog,private authService: AuthServicesService) {
 
-  constructor (private dialog:MatDialog) { }
-
+  }
+  ngOnInit(): void {
+    this.authService.usuarioInfo$.subscribe(x=>{
+      this.usuarioInfo = x;
+      this.comprobarHora()
+    })
+  }
   ngAfterViewInit(): void {
     tinymce.init({
       selector: '#editor',
@@ -26,8 +34,15 @@ export class MainUserLogginComponent implements AfterViewInit {
       menubar: false,
       toolbar: 'restoredraft | undo redo | styles forecolor | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image | table tabledelete | tabledrops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
       statusbar: false,
-      plugins: 'image | table | autosave'
+      plugins: 'image | table | autosave',
+      setup: function (editor) {
+        editor.on('init', function () {
+          console.log('TinyMCE initialized');
+        });
+      }
     });
+
+
   }
 
   bollIcon(): void {
@@ -36,10 +51,10 @@ export class MainUserLogginComponent implements AfterViewInit {
   }
   comprobarHora(): String {
     return (this.HoraActual >= 6 && this.HoraActual <= 12) ?
-      `Buenas Días ${this.nombreUsu}`
+      `Buenas Días ${this.usuarioInfo.nombre}`
       : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
-        `Buenas Tardes ${this.nombreUsu}`
-        : `Buenas Noches ${this.nombreUsu}`;
+        `Buenas Tardes ${this.usuarioInfo.nombre}`
+        : `Buenas Noches ${this.usuarioInfo.nombre}`;
   }
 
   guardarNota() {
@@ -51,12 +66,16 @@ export class MainUserLogginComponent implements AfterViewInit {
   }
 
   newNota(enterAnimationDuration: string, exitAnimationDuration: string) {
-    this.dialog.open(NuevaNotaComponent, {
+    const dialogref = this.dialog.open(NuevaNotaComponent, {
       width: '40%',
       enterAnimationDuration,
       exitAnimationDuration,
       /*data : evento.id,*/
       autoFocus: false
-    }); 
+    });
+
+    dialogref.afterClosed().subscribe((x) => {
+      console.log(x);
+    })
   }
 }

@@ -45,6 +45,7 @@ export class LoginComponent implements  OnInit{
         this.progressSpinner = false;
         this.route.navigate(['/mainUserLoggin']);
         this.authService.setLogged();
+        this.authService.UsuarioInfo.next(response.usuario);
       },
       err=>{
         console.log(err);

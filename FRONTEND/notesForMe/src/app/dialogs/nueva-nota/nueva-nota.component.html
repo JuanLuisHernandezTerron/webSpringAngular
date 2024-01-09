@@ -1,19 +1,30 @@
 <div class="container">
     <div class="row">
-        <h1 class="text-center">Nueva Nota</h1>
+        <h1 class="text-center mt-3">Nueva Nota</h1>
     </div>
-    <div class="row">
-        <div class="col-6">
-        <mat-form-field class="example-form-field">
-            <mat-label>Introduce un título</mat-label>
-            <input matInput type="text" [(ngModel)]="value">
-            <button matSuffix mat-icon-button aria-label="Clear" *ngIf="value" (click)="value=''">
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-        </div>
-        <div class="col-6">
-
-        </div>
+    <div class="notesforme-body row d-flex flex-column align-items-center justify-content-center">
+        <form [formGroup]="this.formNota" (submit)="enviarNota()">
+            <div class="d-flex justify-content-center mt-3">
+                <mat-form-field class="example-form-field">
+                    <mat-label>Introduce un título</mat-label>
+                    <input matInput type="text" [(ngModel)]="value" formControlName="titulo">
+                    <mat-error>Introduce un Titulo</mat-error>
+                    <button matSuffix mat-icon-button aria-label="Clear" *ngIf="value" (click)="value=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <button type="button" class="botonImagen fw-bold" mat-raised-button (click)="fileInput.click()">Imagen Nota</button>
+                <input hidden (change)="previewIMG($event)" formControlName="img" (change)="imagenesChange($event)" #fileInput
+                    class="dialog-inputIMG" type="file" id="file">
+            </div>
+            <div class="d-flex justify-content-center">
+                <img id="img-bebida" class="img-fluid w-50 mt-2" srcset="">
+            </div>
+            <div class="d-flex justify-content-end">
+                <button mat-raised-button class="me-5 mt-5 mb-2" [disabled]="!this.formNota.valid">Siguiente</button>
+            </div>
+        </form>
     </div>
 </div>

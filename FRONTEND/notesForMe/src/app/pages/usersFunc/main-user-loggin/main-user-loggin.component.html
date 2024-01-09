@@ -18,7 +18,7 @@
                         <button mat-raised-button class="notesforme-newNota fw-bold" (click)="this.newNota('200ms', '200ms')">NUEVA NOTA</button>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <h6 class="">{{this.countNotas}} notas</h6>
+                        <h6 class="">{{this.usuarioInfo.nota.length}} notas</h6>
                         <div>
                             <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter">tune</mat-icon>
                             <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter">sort</mat-icon>
@@ -30,7 +30,10 @@
                 <!----------------------------------------------CARDS-NOTES----------------------------------------------------------------->
                 <mat-card class="row">
                     <div class="col-12 notesforme-nota-date">
-                        <h6 class="mt-2">JUN 2021</h6>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mt-2">JUN 2021</h6>
+                            <mat-icon class="mt-1" matTooltip="Eliminar Nota">delete</mat-icon>
+                        </div>
                         <hr>
                         <div class="row align-items-center mb-2">
                             <div class="col-8">

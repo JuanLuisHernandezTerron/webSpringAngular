@@ -1,6 +1,7 @@
 export interface Nota {
     titulo:String,
     descripcion:String,
-    fechaNota:Date,
+    fechaNota:String,
+    img:String
     fk_usuario:String
 }

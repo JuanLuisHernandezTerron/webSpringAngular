@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
       this.progressSpinner = false;
       this.route.navigate(['/mainUserLoggin']);
       console.log(response);
-      
+      this.authService.UsuarioInfo.next(response.usuario);
     },
     err=>{
       console.log(err);
