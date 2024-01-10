@@ -18,7 +18,7 @@
                         <button mat-raised-button class="notesforme-newNota fw-bold" (click)="this.newNota('200ms', '200ms')">NUEVA NOTA</button>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <h6 class="">{{this.usuarioInfo.nota.length}} notas</h6>
+                        <h6 class="">{{this.usuarioInfo.nota.length >= 10 ? this.usuarioInfo.nota.length + ' notas' : this.usuarioInfo.nota.length + ' nota'}} </h6>
                         <div>
                             <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter">tune</mat-icon>
                             <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter">sort</mat-icon>

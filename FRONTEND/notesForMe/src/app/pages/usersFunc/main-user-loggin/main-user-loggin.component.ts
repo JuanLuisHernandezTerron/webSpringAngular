@@ -1,8 +1,10 @@
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { NuevaNotaComponent } from 'src/app/dialogs/nueva-nota/nueva-nota.component';
+import { Nota } from 'src/app/models/nota';
 import { usuarioBack } from 'src/app/models/usuarioBack';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
+import { NotaServiceService } from 'src/app/services/notaServices/nota-service.service';
 declare var tinymce: any;
 
 @Component({
@@ -17,12 +19,14 @@ export class MainUserLogginComponent implements AfterViewInit,OnInit {
   sizeNotes: number = 1;
   countNotas: number = 10;
   usuarioInfo: usuarioBack;
-  constructor(private dialog: MatDialog,private authService: AuthServicesService) {
+  notaEnviar!:Nota;
+  constructor(private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
 
   }
   ngOnInit(): void {
     this.authService.usuarioInfo$.subscribe(x=>{
       this.usuarioInfo = x;
+      console.log(x);
       this.comprobarHora()
     })
   }
@@ -58,7 +62,9 @@ export class MainUserLogginComponent implements AfterViewInit,OnInit {
   }
 
   guardarNota() {
-    console.log(tinymce.activeEditor.getContent());
+    this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
+    this.notaService.insertNotas(this.notaEnviar).subscribe(x=>console.log(x));
+    
     /*
     Así se setea el editor
     tinymce.activeEditor.setContent('<p>Hola a todos</p>');
@@ -75,7 +81,8 @@ export class MainUserLogginComponent implements AfterViewInit,OnInit {
     });
 
     dialogref.afterClosed().subscribe((x) => {
-      console.log(x);
+      this.notaEnviar = x;
+      console.log(this.notaEnviar);
     })
   }
 }
