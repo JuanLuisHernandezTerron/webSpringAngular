@@ -33,7 +33,6 @@ public class Nota implements Serializable {
 	private String descripcion_nota;
 
 	@Column(name = "fecha_publicacion")
-	@Temporal(TemporalType.DATE)
 	private Date fechaNota;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -25,14 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.notesforme.models.services.INotaService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import com.notesforme.models.entity.Nota;
 import com.notesforme.models.entity.Usuario;
 import com.notesforme.models.services.IUsuarioService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api/notas")
+@RequiredArgsConstructor
 public class NotaRestController {
 	
 	@Autowired
@@ -60,7 +61,7 @@ public class NotaRestController {
 		return new ResponseEntity<Nota>(nota,HttpStatus.OK);
 	}
 	
-	@PostMapping("/insertNote")
+	@PostMapping("/insertNote")	
 	/**
 	 * @param nota Contiene el JSON con la informacion de la nota, he tenido que ponerlo con un mapa ya que el atributo usuario_id es un object y estaba
 	 * pasando un string.
@@ -68,6 +69,7 @@ public class NotaRestController {
 	 * @return Devuelve un responseEntity con las respuestas o errores.
 	 * @throws ParseException devuelve los error si es que hay de Date - SetFechaNota
 	 */
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> insertNota(@Valid @RequestBody Map<String, Object> nota, BindingResult result) throws ParseException{
 		Map<String, Object> response = new HashMap<>();
 		String fecha = (String) nota.get("fechaNota");
@@ -92,7 +94,7 @@ public class NotaRestController {
 		try {
 			notaService.save(notaNew);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al crear el usuario");
+			response.put("mensaje", "Error al crear la nota");
 			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -100,6 +102,7 @@ public class NotaRestController {
 		return new ResponseEntity<Nota>(notaNew,HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@DeleteMapping("/deleteNote/{id}")
 	public ResponseEntity<?>deleteNote(@PathVariable Long id){
 		Map<String, Object> response = new HashMap<>();
