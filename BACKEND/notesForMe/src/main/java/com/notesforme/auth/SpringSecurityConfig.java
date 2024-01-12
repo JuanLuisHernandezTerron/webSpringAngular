@@ -31,7 +31,7 @@ public class SpringSecurityConfig{
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         http
+        http.cors().and()
                 .csrf(csrf -> 
                     csrf
                     .disable())
@@ -46,7 +46,6 @@ public class SpringSecurityConfig{
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
          
-         http.cors();
         return http.build();
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.notesforme.models.dao.INotaDao;
 import com.notesforme.models.entity.Nota;
+import com.notesforme.models.entity.Usuario;
 
 @Service 
 public class INotaServiceImpl implements INotaService{
@@ -34,5 +35,10 @@ public class INotaServiceImpl implements INotaService{
 	@Override
 	public Nota findByID(Long id) {
 		return notaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	public List<Nota> findByFkUsuario(String id_usuario) {
+		return notaDao.findByFkUsuario(id_usuario);
 	}
 }

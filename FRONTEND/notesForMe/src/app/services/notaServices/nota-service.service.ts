@@ -1,19 +1,31 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Nota } from 'src/app/models/nota';
-
+import { Usuario } from 'src/app/models/usuario';
+import { AuthServicesService } from '../authServices/auth-services.service';
 @Injectable({
   providedIn: 'root'
 })
-export class NotaServiceService {
-  constructor(private http:HttpClient) { }
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer '+sessionStorage.getItem('token'),
-                                          'Access-Control-Allow-Origin':'*'});
+export class NotaServiceService{
+  constructor(private http: HttpClient, private authService: AuthServicesService) {
+  }
+  private httpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+    'Access-Control-Allow-Origin': '*'
+  });
+  private ListaNotas: Array<Nota> = null;
+  public ListaNotasObservable = new BehaviorSubject<Array<Nota>>(this.ListaNotas);
+  public ListaNotas$ = this.ListaNotasObservable.asObservable();
 
+  insertNotas(nota: Nota): Observable<Nota> {
+    return this.http.post<Nota>('http://localhost:8080/api/notas/insertNote', nota, { headers: this.httpHeaders, withCredentials: true })
+  }
 
-  insertNotas(nota:Nota):Observable<Nota>{
-    return this.http.post<Nota>('http://localhost:8080/api/notas/insertNote',nota,{headers:this.httpHeaders,withCredentials:true})
+  infoNotas(idusuario: String): void {
+    this.http.get<Array<Nota>>('http://localhost:8080/api/notas/getNotasUser/' + idusuario, { headers: this.httpHeaders, withCredentials: true }).subscribe((nota) => {
+      this.ListaNotasObservable.next(nota);
+    })
   }
 }

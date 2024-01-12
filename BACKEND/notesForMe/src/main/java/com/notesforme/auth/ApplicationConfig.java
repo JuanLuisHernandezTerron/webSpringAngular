@@ -1,4 +1,4 @@
-package com.notesforme.auth;
+ package com.notesforme.auth;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

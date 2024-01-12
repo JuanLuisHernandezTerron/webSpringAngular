@@ -34,6 +34,7 @@ import com.notesforme.models.services.IUsuarioService;
 @RestController
 @RequestMapping("/api/notas")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class NotaRestController {
 	
 	@Autowired
@@ -45,6 +46,21 @@ public class NotaRestController {
 	@GetMapping("/getAllNotas")
 	public List<Nota> getNotas(){
 		return notaService.findAll();
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping("/getNotasUser/{idUsu}")
+	public ResponseEntity<?> getNotasUsuario(@PathVariable String idUsu){
+		List<Nota> listaNotas = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			listaNotas = notaService.findByFkUsuario(idUsu);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al hacer la consulta");
+			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
+		}
+		
+		return new ResponseEntity<List<Nota>>(listaNotas,HttpStatus.OK);
 	}
 	
 	@GetMapping("/getInfoNotas/{id}")

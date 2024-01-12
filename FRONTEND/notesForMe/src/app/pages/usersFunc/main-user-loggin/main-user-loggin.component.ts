@@ -1,7 +1,8 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { NuevaNotaComponent } from 'src/app/dialogs/nueva-nota/nueva-nota.component';
 import { Nota } from 'src/app/models/nota';
+import { Usuario } from 'src/app/models/usuario';
 import { usuarioBack } from 'src/app/models/usuarioBack';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { NotaServiceService } from 'src/app/services/notaServices/nota-service.service';
@@ -12,25 +13,39 @@ declare var tinymce: any;
   templateUrl: './main-user-loggin.component.html',
   styleUrls: ['./main-user-loggin.component.scss']
 })
-export class MainUserLogginComponent implements AfterViewInit,OnInit {
+export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   showFiller = true;
   @ViewChild('drawer') openDialog!: any;
   HoraActual: number = new Date().getHours();
   sizeNotes: number = 1;
   countNotas: number = 10;
   usuarioInfo: usuarioBack;
+  usuario:Usuario = new Usuario();
   notaEnviar!:Nota;
-  constructor(private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
+  arrayNotas!:Array<Nota>;
 
+  constructor(private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
   }
+
+  ngAfterViewInit(): void {
+    this.inicializarTinymce();
+  }
+
+  ngOnDestroy(): void {
+    tinymce.remove('#editor')
+  }
+
   ngOnInit(): void {
     this.authService.usuarioInfo$.subscribe(x=>{
-      this.usuarioInfo = x;
       console.log(x);
-      this.comprobarHora()
+      this.usuarioInfo = x;
+      this.comprobarHora();
+      this.notaService.infoNotas(x.dni);
+      this.notaService.ListaNotas$.subscribe(x=>this.arrayNotas = x);
     })
   }
-  ngAfterViewInit(): void {
+
+  inicializarTinymce():void{
     tinymce.init({
       selector: '#editor',
       language: 'es',
@@ -45,8 +60,6 @@ export class MainUserLogginComponent implements AfterViewInit,OnInit {
         });
       }
     });
-
-
   }
 
   bollIcon(): void {
@@ -63,7 +76,12 @@ export class MainUserLogginComponent implements AfterViewInit,OnInit {
 
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
-    this.notaService.insertNotas(this.notaEnviar).subscribe(x=>console.log(x));
+    this.notaService.insertNotas(this.notaEnviar).subscribe(response =>{
+      this.arrayNotas.push(this.notaEnviar);
+      this.notaService.ListaNotasObservable.next(this.arrayNotas);
+    },err=>{
+      console.error("Error al guardar la nota");
+    });
     
     /*
     Así se setea el editor
