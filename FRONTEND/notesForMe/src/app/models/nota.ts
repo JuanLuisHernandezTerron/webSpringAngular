@@ -1,4 +1,5 @@
 export class Nota {
+    id:Number;
     titulo:String;
     descripcion:String;
     fechaNota:Date;
@@ -6,6 +7,7 @@ export class Nota {
     fk_usuario:String;
 
     constructor(){
+        this.id = 0;
         this.titulo = '';
         this.descripcion = '';
         this.fechaNota = new Date();

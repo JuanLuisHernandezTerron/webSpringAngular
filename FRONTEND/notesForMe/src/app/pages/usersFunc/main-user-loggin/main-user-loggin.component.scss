@@ -30,6 +30,11 @@
   &-Editor{
     min-height: 37vw;
   }
+
+  &-divNotas{
+    max-height: 40vw !important;
+    overflow-y: auto;
+  }
 }
 
 .asd{

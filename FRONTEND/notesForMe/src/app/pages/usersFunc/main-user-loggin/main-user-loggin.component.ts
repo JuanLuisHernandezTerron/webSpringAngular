@@ -37,7 +37,6 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
 
   ngOnInit(): void {
     this.authService.usuarioInfo$.subscribe(x=>{
-      console.log(x);
       this.usuarioInfo = x;
       this.comprobarHora();
       this.notaService.infoNotas(x.dni);
@@ -62,18 +61,29 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
     });
   }
 
+  
   bollIcon(): void {
     this.openDialog.toggle();
     this.showFiller = !this.showFiller;
   }
   comprobarHora(): String {
     return (this.HoraActual >= 6 && this.HoraActual <= 12) ?
-      `Buenas Días ${this.usuarioInfo.nombre}`
-      : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
-        `Buenas Tardes ${this.usuarioInfo.nombre}`
-        : `Buenas Noches ${this.usuarioInfo.nombre}`;
+    `Buenas Días ${this.usuarioInfo.nombre}`
+    : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
+    `Buenas Tardes ${this.usuarioInfo.nombre}`
+    : `Buenas Noches ${this.usuarioInfo.nombre}`;
   }
+  
+  viewNota(idNota:Number):void{
+    this.arrayNotas.filter( nota => {
+      (nota.id === idNota) ? tinymce.activeEditor.setContent(nota.descripcion) : '';  
+    })
+  }
+  
+  deleteNote(idNota:Number):void{
 
+  }
+  
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
     this.notaService.insertNotas(this.notaEnviar).subscribe(response =>{
@@ -83,10 +93,6 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
       console.error("Error al guardar la nota");
     });
     
-    /*
-    Así se setea el editor
-    tinymce.activeEditor.setContent('<p>Hola a todos</p>');
-    */
   }
 
   newNota(enterAnimationDuration: string, exitAnimationDuration: string) {

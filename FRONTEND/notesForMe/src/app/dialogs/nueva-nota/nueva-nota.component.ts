@@ -51,6 +51,7 @@ export class NuevaNotaComponent {
   enviarNota(): void {
     this.authService.usuarioInfo$.subscribe(x=>{
       let nota: Nota = {
+        id:null,
         titulo: this.formNota.get('titulo').value,
         img: this.formNota.get('img').value,
         descripcion: undefined,

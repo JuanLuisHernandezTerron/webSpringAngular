@@ -2,13 +2,11 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Nota } from 'src/app/models/nota';
-import { Usuario } from 'src/app/models/usuario';
-import { AuthServicesService } from '../authServices/auth-services.service';
 @Injectable({
   providedIn: 'root'
 })
 export class NotaServiceService{
-  constructor(private http: HttpClient, private authService: AuthServicesService) {
+  constructor(private http: HttpClient) {
   }
   private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
