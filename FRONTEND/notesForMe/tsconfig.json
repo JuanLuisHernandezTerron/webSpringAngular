@@ -18,6 +18,7 @@
     "importHelpers": true,
     "target": "esnext",
     "module": "esnext",
+    "skipLibCheck":true,
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
