@@ -20,16 +20,16 @@
                     <div class="d-flex justify-content-between">
                         <h6 class="">{{this.arrayNotas?.length > 1 ? this.arrayNotas?.length + ' notas' : this.arrayNotas?.length + ' nota'}} </h6>
                         <div>
-                            <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter">tune</mat-icon>
-                            <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter">sort</mat-icon>
-                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter">filter_alt</mat-icon>
+                            <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter" >tune</mat-icon>
+                            <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('ordenar')">sort</mat-icon>
+                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('filtro')">filter_alt</mat-icon>
                         </div>
                     </div>
                     <hr>
                 </div>
                 <!----------------------------------------------CARDS-NOTES----------------------------------------------------------------->
                 <div class="row d-flex justify-content-center notesforme-divNotas">
-                    <mat-card class="col-12 row mt-3 mb-2" (click)="this.viewNota(nota.id)" *ngFor="let nota of this.arrayNotas">
+                    <mat-card class="col-12 row mt-3 mb-2 notesforme-matCard" (click)="this.viewNota(nota.id)" *ngFor="let nota of this.arrayNotas">
                         <div class="col-12 notesforme-nota-date">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mt-2">{{nota.fechaNota | date:'mediumDate'}}</h6>

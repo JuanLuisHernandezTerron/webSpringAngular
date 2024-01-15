@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Nota } from 'src/app/models/nota';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,5 +26,9 @@ export class NotaServiceService{
     this.http.get<Array<Nota>>('http://localhost:8080/api/notas/getNotasUser/' + idusuario, { headers: this.httpHeaders, withCredentials: true }).subscribe((nota) => {
       this.ListaNotasObservable.next(nota);
     })
+  }
+
+  deleteNota(idusuario: Number):Observable<any>{
+    return this.http.delete<any>('http://localhost:8080/api/notas/deleteNote/'+ idusuario,{headers: this.httpHeaders, withCredentials: true})
   }
 }

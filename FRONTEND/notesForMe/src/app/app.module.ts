@@ -15,6 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
+import { ToastrModule } from 'ngx-toastr';
 
 import {DialogModuleModule} from './../app/dialogs/dialog-module.module';
 import { AppComponent } from './app.component';
@@ -46,7 +47,8 @@ import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main
     MatChipsModule,
     MatDialogModule,
     MatInputModule,
-    DialogModuleModule
+    DialogModuleModule,
+    ToastrModule.forRoot()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

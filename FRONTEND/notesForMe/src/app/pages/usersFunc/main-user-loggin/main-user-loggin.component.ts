@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular
 import { MatDialog, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { NuevaNotaComponent } from 'src/app/dialogs/nueva-nota/nueva-nota.component';
 import { Nota } from 'src/app/models/nota';
+import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/models/usuario';
 import { usuarioBack } from 'src/app/models/usuarioBack';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
@@ -24,7 +25,7 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   notaEnviar!:Nota;
   arrayNotas!:Array<Nota>;
 
-  constructor(private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
+  constructor(private toastr:ToastrService, private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
   }
 
   ngAfterViewInit(): void {
@@ -81,14 +82,26 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   }
   
   deleteNote(idNota:Number):void{
+    console.log(idNota);
+    this.arrayNotas = this.arrayNotas.filter(nota => nota.id !== idNota);
+    console.log(idNota);
+    console.log(this.arrayNotas);
+    
+    this.notaService.ListaNotasObservable.next(this.arrayNotas);
+    this.notaService.deleteNota(idNota).subscribe(response=>{
+      (response.mensaje.includes("eliminiada")) ? this.toastr.success("Nota Eliminada Correctamente") : this.toastr.error("No se ha podido eliminar Correctamente");
+    },error=>{
 
+    });
   }
   
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
     this.notaService.insertNotas(this.notaEnviar).subscribe(response =>{
-      this.arrayNotas.push(this.notaEnviar);
+      this.arrayNotas.push(response);
       this.notaService.ListaNotasObservable.next(this.arrayNotas);
+      tinymce.activeEditor.setContent("")
+      this.toastr.success("Nota Creada Correctamente");
     },err=>{
       console.error("Error al guardar la nota");
     });
@@ -108,5 +121,9 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
       this.notaEnviar = x;
       console.log(this.notaEnviar);
     })
+  }
+
+  ajustes(tipoAjuste:String):void{
+    (tipoAjuste === "ordenar") ? this.arrayNotas.sort((a:any,b:any)=>a.fechaNota-b.fechaNota) : '';
   }
 }
