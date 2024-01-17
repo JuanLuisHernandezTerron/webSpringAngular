@@ -19,4 +19,8 @@ export class HeaderNotesForMeComponent implements OnInit{
     this.authService.logout();
     this.route.navigate([""])
   }
+
+  routeHeader(){
+    (sessionStorage.getItem('logged')) ? this.route.navigate(["/mainUserLoggin"]) : this.route.navigate(["/"]);
+  }
 }

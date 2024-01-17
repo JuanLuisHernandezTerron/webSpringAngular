@@ -24,6 +24,7 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   usuario:Usuario = new Usuario();
   notaEnviar!:Nota;
   arrayNotas!:Array<Nota>;
+  ordenarFilter:Boolean = true;
 
   constructor(private toastr:ToastrService, private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
   }
@@ -82,11 +83,7 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   }
   
   deleteNote(idNota:Number):void{
-    console.log(idNota);
     this.arrayNotas = this.arrayNotas.filter(nota => nota.id !== idNota);
-    console.log(idNota);
-    console.log(this.arrayNotas);
-    
     this.notaService.ListaNotasObservable.next(this.arrayNotas);
     this.notaService.deleteNota(idNota).subscribe(response=>{
       (response.mensaje.includes("eliminiada")) ? this.toastr.success("Nota Eliminada Correctamente") : this.toastr.error("No se ha podido eliminar Correctamente");
@@ -124,6 +121,13 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
   ajustes(tipoAjuste:String):void{
-    (tipoAjuste === "ordenar") ? this.arrayNotas.sort((a:any,b:any)=>a.fechaNota-b.fechaNota) : '';
+    if (tipoAjuste === "ordenar") {
+      this.ordenarFilter = !this.ordenarFilter;
+      this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
+        let fechaNotaA = new Date (a.fechaNota);
+        let fechaNotaB = new Date (b.fechaNota);
+        return this.ordenarFilter ? fechaNotaA.getTime()- fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
+      });
+    }
   }
 }

@@ -1,7 +1,7 @@
 <header class="container d-flex justify-content-around">
-    <div class="row align-items-center" [routerLink]="['/']">
-        <img src="./../../../../assets/img/5b06c1a5fad1cae04539afe1.png" class="col-6 img-fluid d-inline" alt="img-logo" srcset="">
-        <h2 class="col-6 ">NotesForMe</h2>
+    <div class="row align-items-center">
+        <img src="./../../../../assets/img/5b06c1a5fad1cae04539afe1.png" (click)="this.routeHeader()" class="col-6 img-fluid d-inline" alt="img-logo" srcset="">
+        <h2 class="col-6" (click)="this.routeHeader()">NotesForMe</h2>
     </div>
     <div class="row align-items-center d-flex justify-content-between">
         <h5 class="col-6" *ngIf="!isLogged" [routerLink]="['/auth/login']">Login</h5>
