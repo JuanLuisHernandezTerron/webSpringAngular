@@ -33,6 +33,16 @@ export class AuthServicesService implements OnInit{
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('logged');
   }
+
+  matchPasswd(infoPasswd:any):Observable<any>{
+    return this.http.get<any>('http://localhost:8080/api/cliente/matchPasswd',infoPasswd)
+  }
+
+  updateUser(dniUser:String,actuUser:Usuario):Observable<any>{
+    console.log(dniUser);
+    
+    return this.http.put<any>('http://localhost:8080/api/updateUser/'+dniUser,actuUser)
+  }
   
   login(userLogin:any):Observable<responsePost>{
     return this.http.post<responsePost>('http://localhost:8080/api/auth/cliente/loginUser',userLogin,{headers:this.httpHeaders});

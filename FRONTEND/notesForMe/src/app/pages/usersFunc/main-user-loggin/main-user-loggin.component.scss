@@ -39,7 +39,6 @@
   &-matCard{
     width: 98%;
   }
-  
 }
 
 .asd{
@@ -52,13 +51,6 @@
 
 .container {
   min-height: 80vw;
-}
-
-.example-sidenav-content {
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
 }
 
 .example-sidenav {
@@ -116,47 +108,55 @@ p{
   color: #cacaca;
 }
 
+@keyframes borderAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 ::ng-deep .div{
   &-Inicio{
-    transition: all 0.6s ease-in-out;
     color: #cacaca;
     &:hover{
+      overflow-x: hidden;
       color: white;
       cursor: pointer;
-      transform: scale(1.01);
       border-bottom: 1px solid white;
     }
   }
-
+  
   &-Perfil{
     transition: all 0.6s ease-in-out;
     color: #cacaca;
     &:hover{
+      overflow-x: hidden;
       color: white !important;
       cursor: pointer;
-      transform: scale(1.01);
       border-bottom: 1px solid white;
     }
   }
-
+  
   &-Notas{
     transition: all 0.6s ease-in-out;
     color: #cacaca;
     &:hover{
+      overflow-x: hidden;
       color: white !important;
       cursor: pointer;
-      transform: scale(1.01);
       border-bottom: 1px solid white;
     }
   }
-
+  
   &-Borradas{
     transition: all 0.6s ease-in-out;
     color: #cacaca;
     &:hover{
+      overflow-x: hidden;
       color: white !important;
       cursor: pointer;
-      transform: scale(1.01);
       border-bottom: 1px solid white;
     }
   }

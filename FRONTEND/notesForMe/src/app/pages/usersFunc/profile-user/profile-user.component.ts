@@ -1,18 +1,34 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { usuarioBack } from 'src/app/models/usuarioBack';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Usuario } from 'src/app/models/usuario';
+import { ToastrService } from 'ngx-toastr';
+
+
 @Component({
   selector: 'app-profile-user',
   templateUrl: './profile-user.component.html',
   styleUrls: ['./profile-user.component.scss']
 })
-export class ProfileUserComponent implements OnInit{
+export class ProfileUserComponent implements OnInit {
 
-  constructor (private authService:AuthServicesService) {}
+  constructor(private authService: AuthServicesService, private fb: FormBuilder,private toastr:ToastrService) {
+    this.authService.usuarioInfo$.subscribe(user => {
+      this.usuarioInfo = user
+      this.validatorUserEdit();
+    });
+  }
+
   imageneProducto: string;
-  usuarioInfo:usuarioBack = new usuarioBack();
+  hide: any;
+  public showPassword: boolean = false;
+  usuarioInfo: usuarioBack = new usuarioBack();
+  picker: any;
+  usuario:Usuario = new Usuario();
+  formEditUsu!: FormGroup;
+
   ngOnInit(): void {
-    this.authService.usuarioInfo$.subscribe(user=>this.usuarioInfo = user);
   }
 
   imagenesChange(event) {
@@ -21,7 +37,27 @@ export class ProfileUserComponent implements OnInit{
     }
   }
 
-  
+  validatorUserEdit(): void {
+    this.formEditUsu = this.fb.group({
+      nombre: new FormControl(this.usuarioInfo.nombre, [Validators.required]),
+      apellidos: new FormControl(this.usuarioInfo.apellidos, [Validators.required]),
+      dni: new FormControl(this.usuarioInfo.dni, [Validators.pattern("^(\\d{8})([A-Z])$"), Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
+      fechaNacimiento: new FormControl(this.usuarioInfo.fechaNacimiento, [Validators.required]),
+      email: new FormControl(this.usuarioInfo.email, [Validators.email, Validators.required]),
+      passwords: this.fb.group({
+        contrasena: new FormControl('', [Validators.minLength(8)]),
+        repeatContrasena: new FormControl('', [this.matchingPasswords.bind(this)]),
+      })
+    });
+  }
+
+  matchingPasswords(control: FormControl): { [key: string]: boolean } | null {
+    const password = this.formEditUsu?.get('passwords.contrasena')?.value;
+    const confirmPassword = control.value;
+    // Verificar si las contraseñas coinciden
+    return password === confirmPassword ? null : { 'passwordMismatch': true };
+  }
+
   previewIMG(event: any): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
@@ -31,11 +67,38 @@ export class ProfileUserComponent implements OnInit{
         const img = new Image();
         var url = e.target.result;
         img.onload = () => {
-          document.getElementById('img-bebida')?.setAttribute('src', e.target?.result as string);
+          document.getElementById('img-change')?.setAttribute('src', e.target?.result as string);
         };
         img.src = e.target.result as string;
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  sendUser():void{    
+    this.usuario.dni = this.formEditUsu.get("dni")?.value;
+    this.usuario.nombre = this.formEditUsu.get("nombre")?.value;
+    this.usuario.apellidos = this.formEditUsu.get("apellidos")?.value;
+    this.usuario.email = this.formEditUsu.get("email")?.value;
+
+    (this.formEditUsu.get("contrasena")?.value !== undefined || null) 
+    ? this.usuario.contrasena = this.formEditUsu.get("contrasena")?.value 
+    : ''; 
+    
+    this.usuario.fechaNacimiento = this?.formEditUsu?.get("fechaNacimiento")?.value;;
+
+    this.authService.updateUser(this.usuarioInfo.dni,this.usuario).subscribe(
+      response=>{
+        this.toastr.success("Usuario Modificado")
+      },
+      err=>{
+        this.toastr.error("Error al modificar el usuario")
+      }
+    )
+    console.log("enviar");
   }
 }

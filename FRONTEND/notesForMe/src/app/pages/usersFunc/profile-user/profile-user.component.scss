@@ -1,8 +1,8 @@
 .notesforme{
-
-}
-
-::ng-deep mat-card{
-    background-color: rgb(235, 233, 233) !important;
-
+    &-card{
+        background-color: rgb(250, 246, 246);
+        &:first-child{
+            max-height: 14vw;
+        }
+    }
 }

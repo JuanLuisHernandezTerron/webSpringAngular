@@ -15,7 +15,7 @@ export class Usuario {
         this.contrasena = '';
         this.dni = '';
         this.email = '';
-        this.enabled = false;
+        this.enabled = true;
         this.fechaNacimiento = '';
         this.nombre = '';
         this.role = role.USER;
