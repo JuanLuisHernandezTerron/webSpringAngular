@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.notesforme.models.dao.IUsuarioDao;
 import com.notesforme.models.entity.Role;
 import com.notesforme.models.entity.Usuario;
+import com.notesforme.models.entity.infoMatchPasswd;
 import com.notesforme.models.entity.loginRequest;
 import com.notesforme.models.services.IUploadIMG;
 import com.notesforme.models.services.IUsuarioService;
@@ -218,16 +219,19 @@ public class UsuarioRestController {
 	 * PONER EL BINDING RESULT, DETRÁS DEL ¡PATHVARIABLE!
 	 */
 	@PutMapping("/updateUser/{id}")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> updateUser(@Valid @RequestBody Usuario usuario, BindingResult result,
 			@PathVariable String id) {
+		System.out.println("hola");
 		Map<String, Object> response = new HashMap<>();
 		Usuario usuarioActual = UsuarioService.findByID(id);
-
+		
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream()
 					.map(x -> "El campo '".concat(x.getField()).concat("' ," + x.getDefaultMessage()))
 					.collect(Collectors.toList());
 			response.put("error", errors);
+			System.out.println(errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 
@@ -236,20 +240,27 @@ public class UsuarioRestController {
 					.concat(", no ha sido encontrado en la base de datos, y no se ha podido actualizar"));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
+		
 		try {
 			usuarioActual.setApellidos(usuario.getApellidos());
-			usuarioActual.setContrasena(usuario.getContrasena());
 			usuarioActual.setDni(usuario.getDni());
 			usuarioActual.setEmail(usuario.getEmail());
 			usuarioActual.setFechaNacimiento(usuario.getFechaNacimiento());
 			usuarioActual.setNombre(usuario.getNombre());
+			
+			if (!usuarioActual.getContrasena().equals(usuario.getContrasena())) {
+				usuarioActual.setContrasena(BcryptService.contrasenaEncrypt(usuario.getContrasena()));
+			}
+
 			UsuarioService.save(usuarioActual);
+			response.put("usuario", usuarioActual);
+			response.put("token", jwtService.generatedToken(usuarioActual));
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el usuario");
 			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Usuario>(usuarioActual, HttpStatus.CREATED);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
 	/**
@@ -261,6 +272,7 @@ public class UsuarioRestController {
 	 */
 
 	@PostMapping("/cliente/insertIMG")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> imgUpload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") String id) {
 		Map<String, Object> response = new HashMap<>();
 		Usuario usuarioActual = UsuarioService.findByID(id);
@@ -310,6 +322,24 @@ public class UsuarioRestController {
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
 
 		return new ResponseEntity<Resource>(resource, cabecera, HttpStatus.OK);
+	}
+	
+	@GetMapping("/cliente/matchPasswd")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	public ResponseEntity<?> matchPassword(@Valid @RequestBody infoMatchPasswd infoPasswd){
+		Map<String, Boolean> response = new HashMap<>();
+		try {
+			Usuario usuario = IDaoUser.findByEmail(infoPasswd.getEmail());
+			if (BcryptService.verifyPasswd(infoPasswd.getPassword(), usuario.getContrasena())) {
+				response.put("resultado", true);
+			}else{
+				response.put("resultado", false);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Map<String, Boolean>>(response, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<Map<String, Boolean>>(response, HttpStatus.OK);
 	}
 
 }
