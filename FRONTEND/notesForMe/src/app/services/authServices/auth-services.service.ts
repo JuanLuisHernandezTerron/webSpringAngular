@@ -11,6 +11,7 @@ export class AuthServicesService implements OnInit{
   public isloggedObservable = new BehaviorSubject<boolean>(JSON.parse(sessionStorage.getItem('logged')));
   isLogged$= this.isloggedObservable.asObservable();
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+
   public UsuarioInfo = new BehaviorSubject<usuarioBack>(null);
   public usuarioInfo$ = this.UsuarioInfo.asObservable();
   constructor(private http: HttpClient) { 
@@ -39,9 +40,21 @@ export class AuthServicesService implements OnInit{
   }
 
   updateUser(dniUser:String,actuUser:Usuario):Observable<any>{
-    console.log(dniUser);
-    
-    return this.http.put<any>('http://localhost:8080/api/updateUser/'+dniUser,actuUser)
+    let httpHeadersAuth = new HttpHeaders(
+      {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      'Access-Control-Allow-Origin': '*'}
+      );      
+    return this.http.put<any>('http://localhost:8080/api/updateUser/'+dniUser,actuUser,{headers:httpHeadersAuth})
+  }
+
+  changeImage(file:FormData):Observable<any>{
+    let httpHeadersAuth = new HttpHeaders(
+      {'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      'Access-Control-Allow-Origin': '*'}
+    );  
+    return this.http.post<any>('http://localhost:8080/api/cliente/insertIMG',file,{headers:httpHeadersAuth})
   }
   
   login(userLogin:any):Observable<responsePost>{

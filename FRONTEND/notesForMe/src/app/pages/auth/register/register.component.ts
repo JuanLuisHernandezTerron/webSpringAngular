@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
       sessionStorage.setItem("token",response.token);
       this.progressSpinner = false;
       this.route.navigate(['/mainUserLoggin']);
-      console.log(response);
+      this.authService.setLogged();
       this.authService.UsuarioInfo.next(response.usuario);
     },
     err=>{

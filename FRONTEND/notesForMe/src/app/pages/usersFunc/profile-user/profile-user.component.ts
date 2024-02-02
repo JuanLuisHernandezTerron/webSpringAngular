@@ -13,28 +13,30 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProfileUserComponent implements OnInit {
 
-  constructor(private authService: AuthServicesService, private fb: FormBuilder,private toastr:ToastrService) {
+  constructor(private authService: AuthServicesService, private fb: FormBuilder, private toastr: ToastrService) {
     this.authService.usuarioInfo$.subscribe(user => {
       this.usuarioInfo = user
       this.validatorUserEdit();
     });
   }
 
-  imageneProducto: string;
+  imageneProducto:File;
   hide: any;
   public showPassword: boolean = false;
   usuarioInfo: usuarioBack = new usuarioBack();
   picker: any;
-  usuario:Usuario = new Usuario();
+  usuario: Usuario = new Usuario();
   formEditUsu!: FormGroup;
+  progressSpinner: boolean = false;
+
 
   ngOnInit(): void {
   }
 
   imagenesChange(event) {
-    for (let index = 0; index < event.target.files.length; index++) {
-      this.imageneProducto = event.target.files[index];
-    }
+    // for (let index = 0; index < event.target.files.length; index++) {
+    //   this.imageneProducto = event.target.files[index];
+    // }
   }
 
   validatorUserEdit(): void {
@@ -60,6 +62,7 @@ export class ProfileUserComponent implements OnInit {
 
   previewIMG(event: any): void {
     const input = event.target as HTMLInputElement;
+    var formDataSend: FormData = new FormData();
     if (input.files && input.files.length) {
       const file = input.files[0];
       const reader = new FileReader();
@@ -67,7 +70,22 @@ export class ProfileUserComponent implements OnInit {
         const img = new Image();
         var url = e.target.result;
         img.onload = () => {
+
+          for (let index = 0; index < event.target.files.length; index++) {
+            this.imageneProducto = event.target.files[index];
+          }
+
           document.getElementById('img-change')?.setAttribute('src', e.target?.result as string);
+          formDataSend.append("id", this.usuarioInfo.dni)
+          formDataSend.append("img", this.imageneProducto)
+          console.log(this.imageneProducto);
+          
+          this.authService.changeImage(formDataSend).subscribe(response => {
+            console.log(response);
+          },
+            error => {
+              console.log(error);
+            })
         };
         img.src = e.target.result as string;
       };
@@ -79,26 +97,29 @@ export class ProfileUserComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  sendUser():void{    
+  sendUser(): void {
     this.usuario.dni = this.formEditUsu.get("dni")?.value;
     this.usuario.nombre = this.formEditUsu.get("nombre")?.value;
     this.usuario.apellidos = this.formEditUsu.get("apellidos")?.value;
     this.usuario.email = this.formEditUsu.get("email")?.value;
-
-    (this.formEditUsu.get("contrasena")?.value !== undefined || null) 
-    ? this.usuario.contrasena = this.formEditUsu.get("contrasena")?.value 
-    : ''; 
-    
     this.usuario.fechaNacimiento = this?.formEditUsu?.get("fechaNacimiento")?.value;;
 
-    this.authService.updateUser(this.usuarioInfo.dni,this.usuario).subscribe(
-      response=>{
-        this.toastr.success("Usuario Modificado")
+    if (this.formEditUsu.get("passwords.contrasena")?.value == "") {
+      this.usuario.contrasena = this.usuarioInfo.contrasena
+    } else {
+      this.usuario.contrasena = this.formEditUsu.get("passwords.contrasena")?.value;
+    }
+
+    this.authService.updateUser(this.usuarioInfo.dni, this.usuario).subscribe(
+      response => {
+        this.progressSpinner = false;
+        this.toastr.success("Usuario Modificado");
+        sessionStorage.setItem("token", response.token);
       },
-      err=>{
+      err => {
+        this.progressSpinner = false;
         this.toastr.error("Error al modificar el usuario")
       }
     )
-    console.log("enviar");
   }
 }

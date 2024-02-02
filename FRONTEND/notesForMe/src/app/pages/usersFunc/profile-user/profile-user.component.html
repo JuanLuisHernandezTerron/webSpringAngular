@@ -4,7 +4,7 @@
             <div class="row">
                 <mat-card class="col-3 d-flex flex-column notesforme-card">
                     <div>
-                        <h2 class="text-center mt-2">{{this.usuarioInfo.nombre}}</h2>
+                        <h2 class="text-center mt-2">{{this.usuarioInfo.nombre | titlecase}}</h2>
                     </div>
                     <!--AVATAR-->
                     <div class="d-flex flex-column align-items-center">
@@ -98,4 +98,8 @@
             </div>
         </form>
     </div>
+</div>
+
+<div *ngIf="progressSpinner" class="overlay-spinner">
+    <div class="loader"></div>
 </div>
