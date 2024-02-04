@@ -44,7 +44,7 @@
                                     <h5 class="col-12">{{nota.titulo}}</h5>
                                     <p class="text-truncate">{{nota.descripcion}}</p>
                                     <mat-chip-list class="col-3">
-                                        <mat-chip-row disabled>{{this.usuarioInfo.nombre}}</mat-chip-row>
+                                        <mat-chip-row disabled>{{this.usuarioInfo.nombre | titlecase}}</mat-chip-row>
                                     </mat-chip-list>
                                 </div>
                                 <div class="col-4 divIMG">
@@ -66,38 +66,7 @@
             </form>
         </div>
     </div>
-    <mat-drawer #drawer class="example-sidenav d-flex flex-column" mode="side">
-            <div class="align-items-start">
-                <div class="d-flex justify-content-between">
-                    <h1>Perfil</h1>
-                    <img src="" alt="">
-                </div>
-                <hr class="m-0 text-center barraNav">
-            </div>
-            <div class="align-items-start d-flex mt-2 flex-column ">
-                <div class="d-flex mt-2 mb-2 div-Inicio w-100" [routerLink]="['/']">
-                    <mat-icon>home</mat-icon>
-                    <h4 class="ms-3">Inicio</h4>
-                </div>
-                <div class="d-flex mt-2 mb-2 div-Perfil w-100" [routerLink]="['/mainUserLoggin/profileUser']">
-                    <mat-icon>account_circle</mat-icon>
-                    <h4 class="ms-3">Ver Perfil</h4>
-                </div>
-                <div class="d-flex mt-2 mb-2 div-Notas w-100">
-                    <mat-icon>description</mat-icon>
-                    <h4 class="ms-3">Notas</h4>
-                </div>
-                <div class="d-flex mt-2 mb-2 div-Borradas w-100">
-                    <mat-icon>delete</mat-icon>
-                    <h4 class="ms-3">Notas Borradas</h4>
-                </div>
-            </div>
-            <div class="align-items-end mt-5">
-                <hr class="text-center barraNav">
-                <div class="d-flex align-items-center">
-                    <mat-icon>help</mat-icon>
-                    <h6 class="ms-3 mt-2">Necesitas una pequeña ayuda?</h6>
-                </div>
-            </div>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <app-nav-side></app-nav-side>
     </mat-drawer>
 </mat-drawer-container>

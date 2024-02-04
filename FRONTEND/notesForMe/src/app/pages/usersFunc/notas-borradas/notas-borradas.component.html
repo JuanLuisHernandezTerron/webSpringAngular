@@ -1,0 +1,26 @@
+<mat-drawer-container class="container-fluid row notesforme">
+    <div class="row">
+        <div class="col-1">
+            <mat-icon #changeIcon class="notesforme-icon-row mt-5" (click)="this.bollIcon()"
+                matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
+        </div>
+        <div class="col-11 row d-flex justify-content-center notesforme-body mt-3 ">
+            <mat-card class="col-3 row d-flex flex-row w-50 mt-3">
+                <div class="divIMG p-1">
+                    <img src="./../../../../assets/img/man-593333_1280.jpg" class="img-fluid notesforme-image"
+                        alt="imagen-Nota">
+                </div>
+                <div class="col-7 d-flex justify-content-center align-items-center">
+                    <h4>Titulo</h4>
+                </div>
+                <div class="col-3 d-flex align-items-start justify-content-end">
+                    <mat-icon matTooltip="Restaurar Nota" class="mt-3 notesforme-icon">restore_page</mat-icon>
+                    <mat-icon matTooltip="Borrar" class="mt-3 notesforme-icon ms-2">delete</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <app-nav-side></app-nav-side>
+    </mat-drawer>
+</mat-drawer-container>

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
+
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { usuarioBack } from 'src/app/models/usuarioBack';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/models/usuario';
 import { ToastrService } from 'ngx-toastr';
-
 
 @Component({
   selector: 'app-profile-user',
@@ -19,7 +19,7 @@ export class ProfileUserComponent implements OnInit {
       this.validatorUserEdit();
     });
   }
-
+  @ViewChild('drawer') openDialog!: any;
   imageneProducto:File;
   hide: any;
   public showPassword: boolean = false;
@@ -28,7 +28,7 @@ export class ProfileUserComponent implements OnInit {
   usuario: Usuario = new Usuario();
   formEditUsu!: FormGroup;
   progressSpinner: boolean = false;
-
+  showFiller:Boolean = true;
 
   ngOnInit(): void {
   }
@@ -38,6 +38,12 @@ export class ProfileUserComponent implements OnInit {
     //   this.imageneProducto = event.target.files[index];
     // }
   }
+
+  bollIcon(): void {
+    this.openDialog.toggle();
+    this.showFiller = !this.showFiller;
+  }
+
 
   validatorUserEdit(): void {
     this.formEditUsu = this.fb.group({
@@ -123,3 +129,4 @@ export class ProfileUserComponent implements OnInit {
     )
   }
 }
+

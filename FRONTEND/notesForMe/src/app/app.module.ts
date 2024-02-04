@@ -12,7 +12,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
-import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import { ToastrModule } from 'ngx-toastr';
@@ -22,13 +21,11 @@ import {DialogModuleModule} from './../app/dialogs/dialog-module.module';
 import { AppComponent } from './app.component';
 import { HeaderNotesForMeComponent } from './common/components/header-notes-for-me/header-notes-for-me.component';
 import { FooterNotesForMeComponent } from './common/components/footer-notes-for-me/footer-notes-for-me.component';
-import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main-user-loggin.component';
 @NgModule({
   declarations: [
     AppComponent,
     FooterNotesForMeComponent,
     HeaderNotesForMeComponent,
-    MainUserLogginComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +42,6 @@ import { MainUserLogginComponent } from './pages/usersFunc/main-user-loggin/main
     MatButtonModule,
     MatSidenavModule,
     MatCardModule,
-    MatChipsModule,
     MatDialogModule,
     MatInputModule,
     DialogModuleModule,

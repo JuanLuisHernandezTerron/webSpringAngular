@@ -1,104 +1,117 @@
-<div class="container notesforme d-flex justify-content-center">
-    <div class="w-75 row d-flex">
-        <form [formGroup]="this.formEditUsu" (submit)="this.sendUser()">
-            <div class="row">
-                <mat-card class="col-3 d-flex flex-column notesforme-card">
-                    <div>
-                        <h2 class="text-center mt-2">{{this.usuarioInfo.nombre | titlecase}}</h2>
-                    </div>
-                    <!--AVATAR-->
-                    <div class="d-flex flex-column align-items-center">
-                        <img class="img-fluid" id="img-change"
-                            src="{{ this.usuarioInfo?.imgPerfil !== null ? this.usuarioInfo?.imgPerfil : './../../../../../assets/img/usuarioSinPerfil.png' }}"
-                            alt="imagen-avatar">
-                        <button type="button" class="botonImagen fw-bold mb-3" mat-raised-button
-                            (click)="fileInput.click()">Actualizar Foto</button>
-                        <input hidden (change)="previewIMG($event)" formControlName="img"
-                            (change)="imagenesChange($event)" #fileInput class="dialog-inputIMG" type="file" id="file">
-                    </div>
-                </mat-card>
-                <mat-card class="col-8 ms-4 notesforme-card d-flex flex-column">
-                    <div>
-                        <h1 class="text-center mt-3">Modificar Perfil</h1>
-                    </div>
-                    <hr>
-                    <!--FORMULARIO-->
-                    <div class="d-flex flex-column">
+<mat-drawer-container class="container-fluid row notesforme">
+    <div class="row">
+        <div class="col-1">
+            <mat-icon  #changeIcon class="notesforme-icon-row mt-5" (click)="this.bollIcon()"
+                matTooltip="Información" >{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
+        </div>
+        <div class="col-11 d-flex justify-content-center align-items-center">
+            <form [formGroup]="this.formEditUsu" class="w-50 mt-5" (submit)="this.sendUser()">
+                <div class="row">
+                    <mat-card class="col-3 d-flex flex-column notesforme-card">
+                        <div>
+                            <h2 class="text-center mt-2">{{this.usuarioInfo.nombre | titlecase}}</h2>
+                        </div>
+                        <!--AVATAR-->
+                        <div class="d-flex flex-column align-items-center">
+                            <img class="img-fluid" id="img-change"
+                                src="{{ this.usuarioInfo?.imgPerfil !== null ? this.usuarioInfo?.imgPerfil : './../../../../../assets/img/usuarioSinPerfil.png' }}"
+                                alt="imagen-avatar">
+                            <button type="button" class="botonImagen fw-bold mb-3 mt-2" mat-raised-button
+                                (click)="fileInput.click()">Actualizar Foto</button>
+                            <input hidden (change)="previewIMG($event)" formControlName="img"
+                                (change)="imagenesChange($event)" #fileInput class="dialog-inputIMG mt-2" type="file"
+                                id="file">
+                        </div>
+                    </mat-card>
+                    <mat-card class="col-8 ms-4 notesforme-card d-flex flex-column">
+                        <div>
+                            <h1 class="text-center mt-3">Modificar Perfil</h1>
+                        </div>
+                        <hr>
+                        <!--FORMULARIO-->
                         <div class="d-flex flex-column">
-                            <label class="text-left">Nombre</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Nombre</mat-label>
-                                <input matInput placeholder="Introduzca Nombre" autofocus formControlName="nombre" >
-                                <mat-error>Nombre es <strong>REQUERIDO</strong></mat-error>
-                            </mat-form-field>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Nombre</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput placeholder="Introduzca Nombre" autofocus formControlName="nombre">
+                                    <mat-error>Nombre es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
 
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Apellidos</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Apellidos</mat-label>
+                                    <input matInput placeholder="Introduzca Apellidos" formControlName="apellidos">
+                                    <mat-error>Apellidos es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">DNI</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>DNI</mat-label>
+                                    <input matInput placeholder="Introduzca DNI" formControlName="dni">
+                                    <mat-error>DNI es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Fecha Nacimiento</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Fecha Nacimiento</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                                    <mat-hint>MM/DD/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error>FechaNacimiento es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Email</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput placeholder="Introduzca Email" autofocus formControlName="email">
+                                    <mat-error>Email es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex flex-column" formGroupName="passwords">
+                                <label class="text-left">Contraseña</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input type="password" matInput placeholder="Introduzca Contraseña"
+                                        formControlName="contrasena">
+                                    <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex flex-column" formGroupName="passwords">
+                                <label class="text-left">Repita Contraseña</label>
+                                <mat-form-field class="w-75 m-auto">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input type="password" [type]="hide ? 'password' : 'text'" matInput
+                                        placeholder="Introduzca Contraseña" formControlName="repeatContrasena">
+                                    <button mat-icon-button matSuffix (click)="hide = !hide"
+                                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+                                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </button>
+                                    <mat-error>Las Contraseñas no <strong>COINCIDEN</strong></mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="d-flex flex-column">
-                            <label class="text-left">Apellidos</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Apellidos</mat-label>
-                                <input matInput placeholder="Introduzca Apellidos" formControlName="apellidos">
-                                <mat-error>Apellidos es <strong>REQUERIDO</strong></mat-error>
-                            </mat-form-field>
+                        <!--BOTÓN-->
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button [disabled]="!this.formEditUsu.valid" type="submit" class="mb-3 mt-2" type="submit"
+                                mat-raised-button>Modificar Datos</button>
                         </div>
-                        <div class="d-flex flex-column">
-                            <label class="text-left">DNI</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>DNI</mat-label>
-                                <input matInput placeholder="Introduzca DNI" formControlName="dni">
-                                <mat-error>DNI es <strong>REQUERIDO</strong></mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="d-flex flex-column">
-                            <label class="text-left">Fecha Nacimiento</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Fecha Nacimiento</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                                <mat-error>FechaNacimiento es <strong>REQUERIDO</strong></mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="d-flex flex-column">
-                            <label class="text-left">Email</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Email</mat-label>
-                                <input matInput placeholder="Introduzca Email" autofocus formControlName="email">
-                                <mat-error>Email es <strong>REQUERIDO</strong></mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="d-flex flex-column" formGroupName="passwords">
-                            <label class="text-left">Contraseña</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Contraseña</mat-label>
-                                <input type="password" matInput placeholder="Introduzca Contraseña" formControlName="contrasena">
-                                <mat-error>Contraseña es <strong>REQUERIDO</strong></mat-error>                       
-                            </mat-form-field>
-                        </div>
-                        <div class="d-flex flex-column" formGroupName="passwords">
-                            <label class="text-left">Repita Contraseña</label>
-                            <mat-form-field class="w-75 m-auto">
-                                <mat-label>Contraseña</mat-label>
-                                <input type="password" [type]="hide ? 'password' : 'text'" matInput
-                                    placeholder="Introduzca Contraseña" formControlName="repeatContrasena">
-                                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                                    [attr.aria-pressed]="hide" type="button">
-                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                                </button>
-                                <mat-error>Las Contraseñas no <strong>COINCIDEN</strong></mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <!--BOTÓN-->
-                    <div class="d-flex justify-content-center align-items-center">
-                        <button [disabled]="!this.formEditUsu.valid" type="submit" class="mb-3 mt-2" type="submit" mat-raised-button>Modificar Datos</button>
-                    </div>
-                </mat-card>
-            </div>
-        </form>
+                    </mat-card>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <app-nav-side></app-nav-side>
+    </mat-drawer>
+</mat-drawer-container>
+
 
 <div *ngIf="progressSpinner" class="overlay-spinner">
     <div class="loader"></div>
