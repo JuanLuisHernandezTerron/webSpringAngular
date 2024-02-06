@@ -3,6 +3,7 @@ export class Nota {
     titulo:String;
     descripcion:String;
     fechaNota:Date;
+    borrada:Boolean;
     img:String;
     fk_usuario:String;
 
@@ -12,6 +13,7 @@ export class Nota {
         this.descripcion = '';
         this.fechaNota = new Date();
         this.img = '';
+        this.borrada = false;
         this.fk_usuario = '';
     }
 }

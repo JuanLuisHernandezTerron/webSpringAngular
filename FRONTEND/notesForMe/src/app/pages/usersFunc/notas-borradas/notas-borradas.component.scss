@@ -1,17 +1,26 @@
 ::ng-deep .notesforme {
     min-height: 38vw !important;
+
     &-image {
         width: 16%;
     }
 
     &-icon {
         transform: scale(1.3);
+
+        &:hover {
+            color: black !important;
+        }
+    }
+
+    &-body {
+        min-height: 35vw;
     }
 }
 
 
 .divIMG {
-    width: 150px;
+    width: 180px;
     /* Establece el ancho deseado para el contenedor */
     height: 100px;
     /* Establece la altura deseada para el contenedor */
@@ -45,7 +54,12 @@ mat-drawer-container {
     background-color: #ffffff;
 }
 
-mat-card{
-    height: 100%;
+mat-card {
+    max-height: 5.5vw;
     background-color: #cbc8c8;
+    transition: all 0.6s ease-in-out;
+
+    &:hover {
+        transform: scale(1.01);
+    }
 }

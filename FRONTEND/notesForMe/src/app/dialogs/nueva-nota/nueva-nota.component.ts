@@ -56,6 +56,7 @@ export class NuevaNotaComponent {
         img: this.formNota.get('img').value,
         descripcion: undefined,
         fechaNota: new Date(),
+        borrada:false,
         fk_usuario: x.dni
       };
       this.dialogRef.close(nota);

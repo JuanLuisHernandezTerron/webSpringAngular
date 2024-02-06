@@ -83,13 +83,13 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   }
   
   deleteNote(idNota:Number):void{
-    this.arrayNotas = this.arrayNotas.filter(nota => nota.id !== idNota);
+    this.arrayNotas.forEach(notaAUX=>{
+      if (notaAUX.id == idNota) {
+        notaAUX.borrada = true;
+      }
+    })
     this.notaService.ListaNotasObservable.next(this.arrayNotas);
-    this.notaService.deleteNota(idNota).subscribe(response=>{
-      (response.mensaje.includes("eliminiada")) ? this.toastr.success("Nota Eliminada Correctamente") : this.toastr.error("No se ha podido eliminar Correctamente");
-    },error=>{
-
-    });
+    this.toastr.success("Nota borrada Temporalmente")
   }
   
   guardarNota() {
@@ -102,7 +102,6 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
     },err=>{
       console.error("Error al guardar la nota");
     });
-    
   }
 
   newNota(enterAnimationDuration: string, exitAnimationDuration: string) {
