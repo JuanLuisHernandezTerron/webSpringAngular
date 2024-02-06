@@ -41,4 +41,9 @@ public class INotaServiceImpl implements INotaService{
 	public List<Nota> findByFkUsuario(String id_usuario) {
 		return notaDao.findByFkUsuario(id_usuario);
 	}
+
+	@Override
+	public void updateNotaBorrado(Long idNota, boolean borrada) {
+		notaDao.updateBorradoNota(idNota, borrada);
+	}
 }

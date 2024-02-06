@@ -17,4 +17,6 @@ public interface INotaService {
 	public void deleteById(Long id);
 	
 	public List<Nota> findByFkUsuario(String usuario);
+	
+	public void updateNotaBorrado(Long idNota, boolean borrada);
 }

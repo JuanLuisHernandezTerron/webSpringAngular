@@ -31,6 +31,8 @@ public class Nota implements Serializable {
 
 	@NotEmpty(message = "La descripción no puede estar vacío")
 	private String descripcion_nota;
+	
+	private boolean borrada = false;
 
 	@Column(name = "fecha_publicacion")
 	private Date fechaNota;
@@ -82,6 +84,14 @@ public class Nota implements Serializable {
 
 	public void setFechaNota(Date fechaNota) {
 		this.fechaNota = fechaNota;
+	}
+
+	public boolean isBorrada() {
+		return borrada;
+	}
+
+	public void setBorrada(boolean borrada) {
+		this.borrada = borrada;
 	}
 
 	/**
