@@ -173,7 +173,7 @@ public class NotaRestController {
 	@PutMapping("/updateNotaBorrada")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> updateNotaBorrada(@Valid @RequestBody Nota nota) {
-		System.out.println("holaa");
+		List<Nota> listadoNotas = notaService.findAll();
 		Map<String, Object> response = new HashMap<>();
 		Nota notaAUX = notaService.findByID(nota.getId());
 
@@ -186,6 +186,7 @@ public class NotaRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "La nota ha sido modificada con éxito");
+		response.put("Lista", listadoNotas);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
