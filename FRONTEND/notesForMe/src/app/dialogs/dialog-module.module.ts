@@ -11,7 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
-    NuevaNotaComponent
+    NuevaNotaComponent,
   ],
   imports: [
     CommonModule,

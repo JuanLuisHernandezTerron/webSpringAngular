@@ -6,11 +6,11 @@
                 matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
         </div>
         <div class="col-3 row notesforme-Notes">
-            <div *ngIf="this.sizeNotes == 0" class="col-12 d-flex justify-content-center mt-5">
+            <div *ngIf="this.filterArray().length == 0" class="col-12 d-flex justify-content-center mt-5">
                 <mat-icon class="notesforme-icon mt-2">add_circle</mat-icon>
                 <h1 class="ms-4">Escribe tu primera NOTA!</h1>
             </div>
-            <div class="col-12" *ngIf="this.sizeNotes > 0">
+            <div class="col-12" *ngIf="this.filterArray().length > 0">
                 <!----------------------------------------------FILTROS----------------------------------------------------------------->
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between mb-4 mt-2">
@@ -18,7 +18,7 @@
                         <button mat-raised-button class="notesforme-newNota fw-bold" (click)="this.newNota('200ms', '200ms')">NUEVA NOTA</button>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <h6 class="">{{this.arrayNotas?.length > 1 ? this.arrayNotas?.length + ' notas' : this.arrayNotas?.length + ' nota'}} </h6>
+                        <h6 class="">{{this.filterArray().length > 1 ? this.filterArray().length + ' notas' : this.filterArray().length + ' nota'}} </h6>
                         <div>
                             <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter" >tune</mat-icon>
                             <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('ordenar')">sort</mat-icon>
@@ -29,13 +29,13 @@
                 </div>
                 <!----------------------------------------------CARDS-NOTES----------------------------------------------------------------->
                 <div class="row d-flex justify-content-center notesforme-divNotas">
-                    <mat-card class="col-12 row mt-3 mb-2 notesforme-matCard" (click)="this.viewNota(nota.id)" *ngFor="let nota of this.arrayNotas">
+                    <mat-card class="col-12 row mt-3 mb-2 notesforme-matCard" (click)="this.viewNota(nota.id)" *ngFor="let nota of this.filterArray()">
                         <div class="col-12 notesforme-nota-date">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mt-2">{{nota.fechaNota | date:'mediumDate'}}</h6>
                                 <div>
                                     <mat-icon class="mt-1" matTooltip="Editar Nota">edit</mat-icon>
-                                    <mat-icon class="mt-1 ms-2" matTooltip="Eliminar Nota" (click)="this.deleteNote(nota.id)">delete</mat-icon>
+                                    <mat-icon class="mt-1 ms-2" matTooltip="Eliminar Nota" (click)="this.deleteNote(nota)">delete</mat-icon>
                                 </div>
                             </div>
                             <hr>

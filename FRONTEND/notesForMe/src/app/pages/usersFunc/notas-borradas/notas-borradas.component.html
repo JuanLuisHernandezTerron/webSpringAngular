@@ -1,23 +1,45 @@
-<mat-drawer-container class="container-fluid row notesforme">
+<mat-drawer-container class="container-fluid row notesforme notesforme-body">
+    <div class="row d-flex flex-row-reverse">
+        <h1 class="col-7 fw-bold">Notas Borradas Temporalmente</h1>
+    </div>
     <div class="row">
         <div class="col-1">
             <mat-icon #changeIcon class="notesforme-icon-row mt-5" (click)="this.bollIcon()"
                 matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
         </div>
-        <div class="col-11 row d-flex justify-content-center notesforme-body mt-3 ">
-            <mat-card class="row d-flex flex-row w-50 mt-3" *ngFor="let nota of this.arrayNotas">
-                <div class="divIMG m-auto p-0">
-                    <img src="./../../../../assets/img/man-593333_1280.jpg" class="img-fluid notesforme-image"
-                        alt="imagen-Nota">
-                </div>
-                <div class="col-7 d-flex justify-content-center align-items-center m-auto">
-                    <h4>Titulo</h4>
-                </div>
-                <div class="col-2 d-flex align-items-start justify-content-end">
-                    <mat-icon matTooltip="Restaurar Nota" class="mt-3 notesforme-icon" (click)="this.restoreNota(nota)">restore_page</mat-icon>
-                    <mat-icon matTooltip="Borrar" class="mt-3 notesforme-icon ms-2" (click)="this.deleteNota(nota)">delete</mat-icon>
+        <div class="col-11 row d-flex justify-content-center mt-3" *ngIf="this.devolverNotasBorrada().length > 0">
+            <mat-card class="col-7 row d-flex notesforme-card justify-content-center align-items-center mt-4"
+                *ngFor="let nota of this.devolverNotasBorrada()">
+                <div class="d-flex flex-row">
+                    <div class="col-2 divIMG m-auto p-0">
+                        <img src="./../../../../assets/img/man-593333_1280.jpg" class="img-fluid notesforme-image"
+                            alt="imagen-Nota">
+                    </div>
+                    <div class="col-8 d-flex justify-content-center align-items-center m-auto ">
+                        <h4 class="me-5">{{nota.titulo}}</h4>
+                    </div>
+                    <div class="col-2 d-flex align-items-start justify-content-end">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="botonesAccion">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" class="notesforme-menu">
+                            <button mat-menu-item class="mt-2" (click)="this.restoreNota(nota)">
+                                <mat-icon class="col-12 notesforme-icon mb-2">restore_page</mat-icon>
+                                <div>
+                                    <span class="fw-bold">Restaurar Nota</span>
+                                </div>
+                            </button>
+                            <button mat-menu-item class="mt-2" (click)="this.deleteNota(nota)">
+                                <mat-icon class="col-12 mt-3 mb-2 notesforme-icon text-danger">delete</mat-icon>
+                                <span class="fw-bold text-danger">Borrar Permanentemente</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
             </mat-card>
+        </div>
+        <div *ngIf="this.devolverNotasBorrada().length <= 0">
+            <h1 class="text-center">NO TIENES NINGUNA NOTA BORRADA TEMPORALMENTE</h1>
         </div>
     </div>
     <mat-drawer #drawer class="example-sidenav" mode="side">

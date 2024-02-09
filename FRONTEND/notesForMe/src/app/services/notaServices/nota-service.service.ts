@@ -6,7 +6,7 @@ import { Nota } from 'src/app/models/nota';
 @Injectable({
   providedIn: 'root'
 })
-export class NotaServiceService{
+export class NotaServiceService {
   constructor(private http: HttpClient) {
   }
   private httpHeaders = new HttpHeaders({
@@ -28,16 +28,18 @@ export class NotaServiceService{
     })
   }
 
-  deleteNota(idusuario: Number):Observable<any>{
-    return this.http.delete<any>('http://localhost:8080/api/notas/deleteNote/'+ idusuario,{headers: this.httpHeaders, withCredentials: true})
+  deleteNota(idusuario: Number): Observable<any> {
+    return this.http.delete<any>('http://localhost:8080/api/notas/deleteNote/' + idusuario, { headers: this.httpHeaders, withCredentials: true })
   }
 
-  NotaBorrada(nota:Nota):Observable<any>{
+  NotaBorrada(nota: Nota): Observable<any> {
     let httpHeadersAuth = new HttpHeaders(
-      {'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-      'Access-Control-Allow-Origin': '*'}
-      ); 
-    return this.http.put<any>("http://localhost:8080/api/notas/updateNotaBorrada",nota,{headers:httpHeadersAuth});
+      {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        'Access-Control-Allow-Origin': '*'
+      }
+    );
+    return this.http.put<any>("http://localhost:8080/api/notas/updateNotaBorrada", nota, { headers: httpHeadersAuth });
   }
 }

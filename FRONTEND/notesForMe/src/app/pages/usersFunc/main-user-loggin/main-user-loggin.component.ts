@@ -14,19 +14,20 @@ declare var tinymce: any;
   templateUrl: './main-user-loggin.component.html',
   styleUrls: ['./main-user-loggin.component.scss']
 })
-export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
+export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit {
   showFiller = true;
   @ViewChild('drawer') openDialog!: any;
   HoraActual: number = new Date().getHours();
   sizeNotes: number = 1;
   countNotas: number = 10;
   usuarioInfo: usuarioBack;
-  usuario:Usuario = new Usuario();
-  notaEnviar!:Nota;
-  arrayNotas!:Array<Nota>;
-  ordenarFilter:Boolean = true;
+  usuario: Usuario = new Usuario();
+  notaEnviar!: Nota;
+  arrayNotas!: Array<Nota>;
+  ordenarFilter: Boolean = true;
 
-  constructor(private toastr:ToastrService, private dialog: MatDialog,private authService: AuthServicesService,private notaService:NotaServiceService) {
+  constructor(private toastr: ToastrService, private dialog: MatDialog, private authService: AuthServicesService, private notaService: NotaServiceService) {
+
   }
 
   ngAfterViewInit(): void {
@@ -38,15 +39,15 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.authService.usuarioInfo$.subscribe(x=>{
+    this.authService.usuarioInfo$.subscribe(x => {
       this.usuarioInfo = x;
       this.comprobarHora();
       this.notaService.infoNotas(x.dni);
-      this.notaService.ListaNotas$.subscribe(x=>this.arrayNotas = x);
+      this.notaService.ListaNotas$.subscribe(x => this.arrayNotas = x);
     })
   }
 
-  inicializarTinymce():void{
+  inicializarTinymce(): void {
     tinymce.init({
       selector: '#editor',
       language: 'es',
@@ -63,43 +64,53 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
     });
   }
 
-  
+
   bollIcon(): void {
     this.openDialog.toggle();
     this.showFiller = !this.showFiller;
   }
   comprobarHora(): String {
     return (this.HoraActual >= 6 && this.HoraActual <= 12) ?
-    `Buenas Días ${this.usuarioInfo.nombre}`
-    : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
-    `Buenas Tardes ${this.usuarioInfo.nombre}`
-    : `Buenas Noches ${this.usuarioInfo.nombre}`;
+      `Buenas Días ${this.usuarioInfo.nombre}`
+      : (this.HoraActual >= 12 && this.HoraActual <= 17) ?
+
+        `Buenas Tardes ${this.usuarioInfo.nombre}`
+        : `Buenas Noches ${this.usuarioInfo.nombre}`;
   }
-  
-  viewNota(idNota:Number):void{
-    this.arrayNotas.filter( nota => {
-      (nota.id === idNota) ? tinymce.activeEditor.setContent(nota.descripcion) : '';  
+
+  viewNota(idNota: Number): void {
+    this.arrayNotas.filter(nota => {
+      (nota.id === idNota) ? tinymce.activeEditor.setContent(nota.descripcion) : '';
     })
   }
-  
-  deleteNote(idNota:Number):void{
-    this.arrayNotas.forEach(notaAUX=>{
-      if (notaAUX.id == idNota) {
+
+  filterArray(): Array<Nota> {
+    return this.arrayNotas.filter(x => x.borrada === false);
+  }
+
+  deleteNote(nota: Nota): void {
+    this.arrayNotas.forEach(notaAUX => {
+      if (notaAUX.id == nota.id) {
         notaAUX.borrada = true;
       }
     })
-    this.notaService.ListaNotasObservable.next(this.arrayNotas);
-    this.toastr.success("Nota borrada Temporalmente")
+    this.notaService.NotaBorrada(nota).subscribe(response => {
+      this.notaService.ListaNotasObservable.next(this.arrayNotas);
+      this.toastr.success("Nota borrada Temporalmente")
+    },
+      error => {
+        this.toastr.error("No se ha podido borrar la nota")
+      })
   }
-  
+
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
-    this.notaService.insertNotas(this.notaEnviar).subscribe(response =>{
+    this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
       this.arrayNotas.push(response);
       this.notaService.ListaNotasObservable.next(this.arrayNotas);
       tinymce.activeEditor.setContent("")
       this.toastr.success("Nota Creada Correctamente");
-    },err=>{
+    }, err => {
       console.error("Error al guardar la nota");
     });
   }
@@ -115,17 +126,16 @@ export class MainUserLogginComponent implements OnInit,OnDestroy,AfterViewInit {
 
     dialogref.afterClosed().subscribe((x) => {
       this.notaEnviar = x;
-      console.log(this.notaEnviar);
     })
   }
 
-  ajustes(tipoAjuste:String):void{
+  ajustes(tipoAjuste: String): void {
     if (tipoAjuste === "ordenar") {
       this.ordenarFilter = !this.ordenarFilter;
       this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
-        let fechaNotaA = new Date (a.fechaNota);
-        let fechaNotaB = new Date (b.fechaNota);
-        return this.ordenarFilter ? fechaNotaA.getTime()- fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
+        let fechaNotaA = new Date(a.fechaNota);
+        let fechaNotaB = new Date(b.fechaNota);
+        return this.ordenarFilter ? fechaNotaA.getTime() - fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
       });
     }
   }

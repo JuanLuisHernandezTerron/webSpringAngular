@@ -15,6 +15,7 @@ import { MainUserLogginComponent } from './main-user-loggin/main-user-loggin.com
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { NotasBorradasComponent } from './notas-borradas/notas-borradas.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NotasBorradasComponent } from './notas-borradas/notas-borradas.componen
     ReactiveFormsModule,
     MatSidenavModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ]
 })
 export class UserLogginModule { }
