@@ -1,26 +1,25 @@
 <mat-drawer-container class="container-fluid row notesforme">
     <div class="row">
         <div class="col-1">
-            <mat-icon  #changeIcon class="notesforme-icon-row mt-5" (click)="this.bollIcon()"
-                matTooltip="Información" >{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
+            <mat-icon #changeIcon class="notesforme-icon-row mt-5" (click)="this.bollIcon()"
+                matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
         </div>
         <div class="col-11 d-flex justify-content-center align-items-center">
             <form [formGroup]="this.formEditUsu" class="w-50 mt-5" (submit)="this.sendUser()">
                 <div class="row">
-                    <mat-card class="col-3 d-flex flex-column notesforme-card">
+                    <mat-card class="col-3 row d-flex flex-column notesforme-card ">
                         <div>
                             <h2 class="text-center mt-2">{{this.usuarioInfo.nombre | titlecase}}</h2>
                         </div>
                         <!--AVATAR-->
                         <div class="d-flex flex-column align-items-center">
-                            <img class="img-fluid" id="img-change"
-                                src="{{ this.usuarioInfo?.imgPerfil !== null ? this.usuarioInfo?.imgPerfil : './../../../../../assets/img/usuarioSinPerfil.png' }}"
+                            <img class="img-fluid w-75" id="img-change"
+                                [src]="(this.usuarioInfo?.imgPerfil) ? 'http://localhost:8080/api/cliente/img/uploads/'+(this.usuarioInfo?.imgPerfil) : './../../../../../assets/img/usuarioSinPerfil.png'"
                                 alt="imagen-avatar">
                             <button type="button" class="botonImagen fw-bold mb-3 mt-2" mat-raised-button
                                 (click)="fileInput.click()">Actualizar Foto</button>
-                            <input hidden (change)="previewIMG($event)" formControlName="img"
-                                (change)="imagenesChange($event)" #fileInput class="dialog-inputIMG mt-2" type="file"
-                                id="file">
+                            <input hidden (change)="previewIMG($event)" #fileInput class="dialog-inputIMG mt-2"
+                                type="file" id="file">
                         </div>
                     </mat-card>
                     <mat-card class="col-8 ms-4 notesforme-card d-flex flex-column">

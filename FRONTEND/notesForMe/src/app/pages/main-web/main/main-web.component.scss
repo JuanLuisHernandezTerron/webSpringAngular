@@ -14,6 +14,11 @@
         background-color: rgb(240, 240, 118);
 
     }
+
+    &-imgDiv{
+        width: 282px;
+        height: 418px;    
+    }
 }
 
 ::ng-deep .mat-mdc-raised-button:not(:disabled){

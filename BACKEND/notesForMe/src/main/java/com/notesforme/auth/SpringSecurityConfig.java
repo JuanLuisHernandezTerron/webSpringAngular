@@ -37,7 +37,7 @@ public class SpringSecurityConfig{
                     .disable())
                 .authorizeHttpRequests(authRequest ->
                   authRequest
-                    .requestMatchers("api/auth/cliente/**").permitAll()
+                    .requestMatchers("api/auth/cliente/**","api/cliente/img/uploads/{nombreImagen:.+}").permitAll()
                     .anyRequest().authenticated()
                     )
                 .sessionManagement(sessionManager->

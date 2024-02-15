@@ -7,27 +7,13 @@
     color: #cacaca;
 }
 
-::ng-deep .notesfrome {
-    &-icon {
-        transform: scale(1.7);
-        transition: all 0.6s ease-in-out;
-
-        &-filter {
-            width: 35px;
-            transform: scale(1.1);
-        }
-
-        &-row {
-            bottom: 60px;
-        }
-
-        &:hover {
-            color: rgb(242, 234, 172);
-            transition: all 0.6s ease-in-out;
-        }
-    }
+.notesforme{
+  &-imgPerfil{
+    width: 12%;
+    height: 12%;
+    border-radius: 15%;
+  }
 }
-
 
 ::ng-deep .div {
     &-Inicio {

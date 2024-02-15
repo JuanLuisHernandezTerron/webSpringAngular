@@ -1,6 +1,5 @@
 ::ng-deep .notesforme {
     min-height: 38vw !important;
-
     &-image {
         width: 16%;
     }
@@ -11,10 +10,6 @@
         &:hover {
             color: black !important;
         }
-    }
-
-    &-body {
-        min-height: 35vw;
     }
 
     &-card{
@@ -70,6 +65,7 @@ mat-card {
     transition: all 0.6s ease-in-out;
 
     &:hover {
-        transform: scale(1.01);
+        transform: scale(1.005);
+        overflow: hidden !important;
     }
 }

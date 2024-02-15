@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { usuarioBack } from 'src/app/models/usuarioBack';
@@ -20,7 +20,7 @@ export class ProfileUserComponent implements OnInit {
     });
   }
   @ViewChild('drawer') openDialog!: any;
-  imageneProducto:File;
+  imageneProducto: File;
   hide: any;
   public showPassword: boolean = false;
   usuarioInfo: usuarioBack = new usuarioBack();
@@ -28,15 +28,24 @@ export class ProfileUserComponent implements OnInit {
   usuario: Usuario = new Usuario();
   formEditUsu!: FormGroup;
   progressSpinner: boolean = false;
-  showFiller:Boolean = true;
+  showFiller: Boolean = true;
 
   ngOnInit(): void {
+    console.log(this.usuarioInfo);
+    
   }
+  
+  imagenesChange(event:any) {
+    let formDataSend: FormData = new FormData();
+    formDataSend.append("id", this.usuarioInfo.dni)
+    formDataSend.append("archivo", event.target.files[0])
 
-  imagenesChange(event) {
-    // for (let index = 0; index < event.target.files.length; index++) {
-    //   this.imageneProducto = event.target.files[index];
-    // }
+    this.authService.changeImage(formDataSend).subscribe(response => {
+      this.authService.UsuarioInfo.next(response.cliente)
+    },
+      error => {
+        console.log(error);
+      })
   }
 
   bollIcon(): void {
@@ -68,7 +77,6 @@ export class ProfileUserComponent implements OnInit {
 
   previewIMG(event: any): void {
     const input = event.target as HTMLInputElement;
-    var formDataSend: FormData = new FormData();
     if (input.files && input.files.length) {
       const file = input.files[0];
       const reader = new FileReader();
@@ -76,22 +84,11 @@ export class ProfileUserComponent implements OnInit {
         const img = new Image();
         var url = e.target.result;
         img.onload = () => {
-
           for (let index = 0; index < event.target.files.length; index++) {
             this.imageneProducto = event.target.files[index];
           }
-
+          this.imagenesChange(event);
           document.getElementById('img-change')?.setAttribute('src', e.target?.result as string);
-          formDataSend.append("id", this.usuarioInfo.dni)
-          formDataSend.append("img", this.imageneProducto)
-          console.log(this.imageneProducto);
-          
-          this.authService.changeImage(formDataSend).subscribe(response => {
-            console.log(response);
-          },
-            error => {
-              console.log(error);
-            })
         };
         img.src = e.target.result as string;
       };
@@ -121,6 +118,7 @@ export class ProfileUserComponent implements OnInit {
         this.progressSpinner = false;
         this.toastr.success("Usuario Modificado");
         sessionStorage.setItem("token", response.token);
+        this.authService.UsuarioInfo.next(response.usuario);
       },
       err => {
         this.progressSpinner = false;

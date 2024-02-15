@@ -50,7 +50,7 @@ export class AuthServicesService implements OnInit{
 
   changeImage(file:FormData):Observable<any>{
     let httpHeadersAuth = new HttpHeaders(
-      {'Content-Type': 'application/json',
+      {
       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       'Access-Control-Allow-Origin': '*'}
     );  

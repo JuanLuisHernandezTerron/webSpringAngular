@@ -31,11 +31,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.notesforme.models.dao.IUsuarioDao;
-import com.notesforme.models.entity.Role;
 import com.notesforme.models.entity.Usuario;
 import com.notesforme.models.entity.infoMatchPasswd;
 import com.notesforme.models.entity.loginRequest;
@@ -273,9 +273,10 @@ public class UsuarioRestController {
 
 	@PostMapping("/cliente/insertIMG")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	public ResponseEntity<?> imgUpload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") String id) {
+	public ResponseEntity<?> imgUpload(@RequestPart MultipartFile archivo, @RequestParam String id) {
 		Map<String, Object> response = new HashMap<>();
 		Usuario usuarioActual = UsuarioService.findByID(id);
+		System.out.println("Hola");
 		String nombreArchivo = null;
 		if (!archivo.isEmpty()) {
 			try {
@@ -303,13 +304,18 @@ public class UsuarioRestController {
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-
+	
 	@GetMapping("/cliente/img/uploads/{nombreImagen:.+}")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<Resource> verIMG(@PathVariable String nombreImagen) {
 		Path rutaImgAntigua = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
 		Resource resource = null;
+		System.out.println("Holaaa");
+
 		try {
 			resource = new UrlResource(rutaImgAntigua.toUri());
+			System.out.println("Holaaa1");
+			System.out.println(resource);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
