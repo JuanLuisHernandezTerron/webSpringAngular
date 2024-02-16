@@ -1,5 +1,6 @@
 package com.notesforme.controllers;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -21,7 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import com.notesforme.models.services.IUploadIMG;
+
 import com.notesforme.models.services.INotaService;
 
 import jakarta.validation.Valid;
@@ -42,6 +48,9 @@ public class NotaRestController {
 
 	@Autowired
 	private INotaService notaService;
+	
+	@Autowired
+	private IUploadIMG ImgService;
 
 	@GetMapping("/getAllNotas")
 	public List<Nota> getNotas() {
@@ -188,6 +197,47 @@ public class NotaRestController {
 		response.put("mensaje", "La nota ha sido modificada con éxito");
 		response.put("Lista", listadoNotas);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	/**
+	 * *Con este método podremos actualizar la img de perfil del usuario
+	 * 
+	 * @param archivo Contiene la img del formdata.
+	 * @param id      Identificador del usuario
+	 * @return Devuelve un mapa con los errores o si está bien con el mensaje de ok.
+	 */
+
+	@PostMapping("/insertIMG")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	public ResponseEntity<?> imgUpload(@RequestPart MultipartFile archivo, @RequestParam Long id) {
+		System.out.println("asdddddddddddddddddddddddddddddddssssssssssssssssssssssssssss");
+		Map<String, Object> response = new HashMap<>();
+		Nota notaActual = notaService.findByID(id);
+		String nombreArchivo = null;
+		if (!archivo.isEmpty()) {
+			try {
+				nombreArchivo = ImgService.copiar(archivo);
+			} catch (IOException e) {
+				response.put("mensaje", "La imagen no ha podido ser subida ".concat(nombreArchivo));
+				response.put("error", e.getMessage());
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
+			/**
+			 * Para eliminar la img cuando la actualizemos. 1º Guardamos la ruta de la
+			 * anterior IMG 2º Si es no es null entra dentro del if. 3º Cojemos la ruta de
+			 * la imagen anterior 4º Pasamos esa ruta a un archivo 5º Si existes y se puede
+			 * leer dentra dentro del if y eliminamos la imagen
+			 **/
+			String fotoAnterior = notaActual.getImgNota();
+			ImgService.eliminar(fotoAnterior);
+
+			notaActual.setImgNota(nombreArchivo);
+			notaService.save(notaActual);
+			response.put("nota", notaActual);
+			response.put("mensaje", "La nota con id : " + notaActual.getId());
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
 	private java.sql.Date fechaCast(String fecha) throws ParseException {

@@ -37,6 +37,8 @@ public class Nota implements Serializable {
 	@Column(name = "fecha_publicacion")
 	private Date fechaNota;
 	
+	private String imgNota;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_usuario")
 	@JsonBackReference
@@ -92,6 +94,14 @@ public class Nota implements Serializable {
 
 	public void setBorrada(boolean borrada) {
 		this.borrada = borrada;
+	}
+
+	public String getImgNota() {
+		return imgNota;
+	}
+
+	public void setImgNota(String imgNota) {
+		this.imgNota = imgNota;
 	}
 
 	/**

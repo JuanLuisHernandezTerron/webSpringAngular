@@ -13,9 +13,10 @@ export class NuevaNotaComponent {
   formNota !: FormGroup;
   srcResult: any;
   imageneProducto: string;
+  fileIMG:any;
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<NuevaNotaComponent>,private authService:AuthServicesService) {
-    this.validationFormulario();
+    this.validationFormulario();    
   }
 
   validationFormulario(): void {
@@ -41,6 +42,7 @@ export class NuevaNotaComponent {
         var url = e.target.result;
         img.onload = () => {
           document.getElementById('img-bebida')?.setAttribute('src', e.target?.result as string);
+          this.fileIMG = event.target.files[0];
         };
         img.src = e.target.result as string;
       };
@@ -53,7 +55,7 @@ export class NuevaNotaComponent {
       let nota: Nota = {
         id:null,
         titulo: this.formNota.get('titulo').value,
-        img: this.formNota.get('img').value,
+        img_nota: this.fileIMG,
         descripcion: undefined,
         fechaNota: new Date(),
         borrada:false,

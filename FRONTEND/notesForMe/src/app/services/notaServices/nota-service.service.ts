@@ -32,6 +32,16 @@ export class NotaServiceService {
     return this.http.delete<any>('http://localhost:8080/api/notas/deleteNote/' + idusuario, { headers: this.httpHeaders, withCredentials: true })
   }
 
+  insertImageNota(img:FormData):Observable<any> {
+    let httpHeadersAuth = new HttpHeaders(
+      {
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        'Access-Control-Allow-Origin': '*'
+      }
+    );
+    return this.http.post<any>('http://localhost:8080/api/notas/insertIMG',img,{ headers: httpHeadersAuth });
+  }
+
   NotaBorrada(nota: Nota): Observable<any> {
     let httpHeadersAuth = new HttpHeaders(
       {

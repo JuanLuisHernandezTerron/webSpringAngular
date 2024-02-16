@@ -106,26 +106,35 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
     this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
-      this.arrayNotas.push(response);
-      this.notaService.ListaNotasObservable.next(this.arrayNotas);
-      tinymce.activeEditor.setContent("")
-      this.toastr.success("Nota Creada Correctamente");
+      let formDataSend: FormData = new FormData();
+      formDataSend.append("id", response.id.toString())
+      formDataSend.append("archivo", this.notaEnviar.img_nota as any)
+      this.notaService.insertImageNota(formDataSend).subscribe(responseAUX => {        
+        this.arrayNotas.push(responseAUX);
+        this.notaService.ListaNotasObservable.next(this.arrayNotas);
+        tinymce.activeEditor.setContent("");
+        this.toastr.success("Nota Creada Correctamente");
+        
+      },
+      error=>{
+        console.log(error);
+      })
     }, err => {
       console.error("Error al guardar la nota");
     });
   }
 
-  newNota(enterAnimationDuration: string, exitAnimationDuration: string) {
+  newNota(enterAnimationDuration: string, exitAnimationDuration: string ) {
     const dialogref = this.dialog.open(NuevaNotaComponent, {
       width: '40%',
       enterAnimationDuration,
       exitAnimationDuration,
-      /*data : evento.id,*/
+      /*data : nota,*/
       autoFocus: false
     });
 
     dialogref.afterClosed().subscribe((x) => {
-      this.notaEnviar = x;
+      this.notaEnviar = x;      
     })
   }
 

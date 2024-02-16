@@ -4,7 +4,7 @@ export class Nota {
     descripcion:String;
     fechaNota:Date;
     borrada:Boolean;
-    img:String;
+    img_nota:String;
     fk_usuario:String;
 
     constructor(){
@@ -12,7 +12,7 @@ export class Nota {
         this.titulo = '';
         this.descripcion = '';
         this.fechaNota = new Date();
-        this.img = '';
+        this.img_nota = '';
         this.borrada = false;
         this.fk_usuario = '';
     }
