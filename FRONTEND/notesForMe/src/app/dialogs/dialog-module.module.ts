@@ -8,10 +8,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
+import { DialogUpdateNotaComponent } from './dialog-update-nota/dialog-update-nota.component';
 
 @NgModule({
   declarations: [
     NuevaNotaComponent,
+    DialogUpdateNotaComponent,
   ],
   imports: [
     CommonModule,

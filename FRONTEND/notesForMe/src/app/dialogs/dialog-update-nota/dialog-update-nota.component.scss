@@ -1,0 +1,23 @@
+.notesforme-body{
+    min-height: 25vh;
+}
+
+.example-form-field {
+    width: 200px;
+}
+
+::ng-deep .botonImagen{
+  background-color: rgb(239, 239, 157) !important;;
+}
+
+.divIMG {
+    overflow: hidden;
+    /* Oculta cualquier contenido que desborde el contenedor */
+  }
+  
+  .divIMG img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+    /* Ajusta la imagen para cubrir completamente el contenedor */
+  }

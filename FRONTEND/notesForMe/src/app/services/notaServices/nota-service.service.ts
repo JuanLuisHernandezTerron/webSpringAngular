@@ -52,4 +52,15 @@ export class NotaServiceService {
     );
     return this.http.put<any>("http://localhost:8080/api/notas/updateNotaBorrada", nota, { headers: httpHeadersAuth });
   }
+
+  actualizarNota(notaActualizar:Nota):Observable<any>{
+    let httpHeadersAuth = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        'Access-Control-Allow-Origin': '*'
+      }
+    );
+    return this.http.put<any>("http://localhost:8080/api/notas/updateNota/"+notaActualizar.id,notaActualizar,{headers:httpHeadersAuth})
+  }
 }

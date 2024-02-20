@@ -34,7 +34,7 @@
                             <div class="d-flex justify-content-between">
                                 <h6 class="mt-2">{{nota.fechaNota | date:'mediumDate'}}</h6>
                                 <div>
-                                    <mat-icon class="mt-1" matTooltip="Editar Nota">edit</mat-icon>
+                                    <mat-icon class="mt-1" matTooltip="Editar Nota" (click)="this.updateNota('200ms', '200ms',nota)">edit</mat-icon>
                                     <mat-icon class="mt-1 ms-2" matTooltip="Eliminar Nota" (click)="this.deleteNote(nota)">delete</mat-icon>
                                 </div>
                             </div>
@@ -49,7 +49,8 @@
                                 </div>
                                 <div class="col-4 divIMG">
                                     <img class="img-fluid notesforme-card-img"
-                                        src="./../../../../assets/img/man-593333_1280.jpg" alt="" srcset="">
+                                    [src]="(this.nota?.imgNota) ? 'http://localhost:8080/api/cliente/img/uploads/'+(this.nota?.imgNota) : './../../../../assets/img/man-593333_1280.jpg'"
+                                     alt="imagen-nota" srcset="">
                                 </div>
                             </div>
                         </div>
@@ -58,10 +59,10 @@
             </div>
         </div>
         <div class="col-8 row notesforme-Editor">
-            <form id="textNotes" class="ms-2" (submit)="this.guardarNota()" >
+            <form id="textNotes" class="ms-2">
                 <textarea class="" id="editor" rows="35"></textarea>
                 <div class="d-flex justify-content-center">
-                    <button mat-raised-button type="submit" class="m-auto mt-3">Guardar Nota</button>
+                    <button mat-raised-button type="submit" (click)="this.guardarNota()" class="m-auto mt-3">{{!this.actualizar ? 'Guardar Nota' : 'Actualizar Nota'}} </button>
                 </div>
             </form>
         </div>

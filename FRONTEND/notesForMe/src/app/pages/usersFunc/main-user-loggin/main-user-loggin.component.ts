@@ -1,6 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { NuevaNotaComponent } from 'src/app/dialogs/nueva-nota/nueva-nota.component';
+import { DialogUpdateNotaComponent } from 'src/app/dialogs/dialog-update-nota/dialog-update-nota.component';
 import { Nota } from 'src/app/models/nota';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/models/usuario';
@@ -25,6 +26,7 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
   notaEnviar!: Nota;
   arrayNotas!: Array<Nota>;
   ordenarFilter: Boolean = true;
+  actualizar: Boolean = false;
 
   constructor(private toastr: ToastrService, private dialog: MatDialog, private authService: AuthServicesService, private notaService: NotaServiceService) {
 
@@ -105,26 +107,48 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
 
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
-    this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
-      let formDataSend: FormData = new FormData();
-      formDataSend.append("id", response.id.toString())
-      formDataSend.append("archivo", this.notaEnviar.img_nota as any)
-      this.notaService.insertImageNota(formDataSend).subscribe(responseAUX => {        
-        this.arrayNotas.push(responseAUX);
-        this.notaService.ListaNotasObservable.next(this.arrayNotas);
-        tinymce.activeEditor.setContent("");
-        this.toastr.success("Nota Creada Correctamente");
-        
+    let formDataSend: FormData = new FormData();
+    formDataSend.append("id", this.notaEnviar.id.toString())
+    formDataSend.append("archivo", this.notaEnviar.img_nota as any)
+    if (this.actualizar) {
+      this.notaService.actualizarNota(this.notaEnviar).subscribe(response => {
+        this.notaService.insertImageNota(formDataSend).subscribe(response => {
+          this.arrayNotas.forEach(x => {
+            if (x.id == response.nota.id) {
+              x.descripcion = response.nota.descripcion;
+              x.fechaNota = response.nota.fechaNota;
+              x.img_nota = response.nota.imgNota;
+              x.titulo = response.nota.titulo;
+            }
+          })
+          this.notaService.ListaNotasObservable.next(this.arrayNotas);
+        })
+        this.toastr.success("Nota Modificada Correctamente");
+        this.actualizar = false;
       },
-      error=>{
-        console.log(error);
-      })
-    }, err => {
-      console.error("Error al guardar la nota");
-    });
+        err => {
+          this.actualizar = false;
+        })
+    } else {
+      this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
+        if (this.notaEnviar.img_nota) {
+          this.notaService.insertImageNota(formDataSend).subscribe(responseAUX => {
+            this.arrayNotas.push(responseAUX.nota);
+            this.notaService.ListaNotasObservable.next(this.arrayNotas);
+            tinymce.activeEditor.setContent("");
+            this.toastr.success("Nota Creada Correctamente");
+          },
+            error => {
+              console.log(error);
+            })
+        }
+      }, err => {
+        console.error("Error al guardar la nota");
+      });
+    }
   }
 
-  newNota(enterAnimationDuration: string, exitAnimationDuration: string ) {
+  newNota(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogref = this.dialog.open(NuevaNotaComponent, {
       width: '40%',
       enterAnimationDuration,
@@ -134,7 +158,23 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
     });
 
     dialogref.afterClosed().subscribe((x) => {
-      this.notaEnviar = x;      
+      this.notaEnviar = x;
+      this.actualizar = false;
+    })
+  }
+
+  updateNota(enterAnimationDuration: string, exitAnimationDuration: string, nota: Nota) {
+    const dialogref = this.dialog.open(DialogUpdateNotaComponent, {
+      width: '40%',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: nota,
+      autoFocus: false
+    });
+
+    dialogref.afterClosed().subscribe((x) => {
+      this.notaEnviar = x;
+      this.actualizar = true;
     })
   }
 
