@@ -8,6 +8,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { usuarioBack } from 'src/app/models/usuarioBack';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { NotaServiceService } from 'src/app/services/notaServices/nota-service.service';
+import { DialogFilterComponent } from 'src/app/dialogs/dialog-filter/dialog-filter.component';
 declare var tinymce: any;
 
 @Component({
@@ -108,29 +109,38 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
     let formDataSend: FormData = new FormData();
-    formDataSend.append("id", this.notaEnviar.id.toString())
-    formDataSend.append("archivo", this.notaEnviar.img_nota as any)
+    console.log(this.notaEnviar);
     if (this.actualizar) {
       this.notaService.actualizarNota(this.notaEnviar).subscribe(response => {
-        this.notaService.insertImageNota(formDataSend).subscribe(response => {
-          this.arrayNotas.forEach(x => {
-            if (x.id == response.nota.id) {
-              x.descripcion = response.nota.descripcion;
-              x.fechaNota = response.nota.fechaNota;
-              x.img_nota = response.nota.imgNota;
-              x.titulo = response.nota.titulo;
-            }
-          })
-          this.notaService.ListaNotasObservable.next(this.arrayNotas);
+        formDataSend.append("id", this.notaEnviar?.id.toString())
+        formDataSend.append("archivo", this.notaEnviar.img_nota as any)
+        this.arrayNotas.forEach(x => {
+          if (x.id == this.notaEnviar.id) {
+            x.descripcion = this.notaEnviar.descripcion;
+            x.fechaNota = this.notaEnviar.fechaNota;
+            x.titulo = this.notaEnviar.titulo;
+          }
         })
+        if (this.notaEnviar.img_nota) {          
+          this.notaService.insertImageNota(formDataSend).subscribe(response => {
+            this.arrayNotas.forEach(x => {
+              if (x.id == response.nota.id) {
+                x.img_nota = response.nota.imgNota;
+              }
+            })
+            this.notaService.ListaNotasObservable.next(this.arrayNotas);
+          })
+        }
         this.toastr.success("Nota Modificada Correctamente");
         this.actualizar = false;
       },
-        err => {
-          this.actualizar = false;
-        })
+      err => {
+        this.actualizar = false;
+      })
     } else {
       this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
+        formDataSend.append("id", response?.id.toString())
+        formDataSend.append("archivo", this.notaEnviar.img_nota as any)
         if (this.notaEnviar.img_nota) {
           this.notaService.insertImageNota(formDataSend).subscribe(responseAUX => {
             this.arrayNotas.push(responseAUX.nota);
@@ -178,14 +188,31 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
     })
   }
 
-  ajustes(tipoAjuste: String): void {
-    if (tipoAjuste === "ordenar") {
-      this.ordenarFilter = !this.ordenarFilter;
-      this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
-        let fechaNotaA = new Date(a.fechaNota);
-        let fechaNotaB = new Date(b.fechaNota);
-        return this.ordenarFilter ? fechaNotaA.getTime() - fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
-      });
+  ajustes(tipoAjuste: String,enterAnimationDuration: string, exitAnimationDuration: string): void {
+    switch (tipoAjuste) {
+      case "ordenar":
+        this.ordenarFilter = !this.ordenarFilter;
+        this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
+          let fechaNotaA = new Date(a.fechaNota);
+          let fechaNotaB = new Date(b.fechaNota);
+          return this.ordenarFilter ? fechaNotaA.getTime() - fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
+        });
+        break;
+      case "filtro":
+        const dialogref = this.dialog.open(DialogFilterComponent, {
+          width: '40%',
+          enterAnimationDuration,
+          exitAnimationDuration,
+          autoFocus: false
+        });
+    
+        dialogref.afterClosed().subscribe((x) => {
+          console.log(x);
+        })
+        break;
+      
+      default:
+        break;
     }
   }
 }

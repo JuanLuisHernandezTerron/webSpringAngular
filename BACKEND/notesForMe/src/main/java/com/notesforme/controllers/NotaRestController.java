@@ -149,10 +149,12 @@ public class NotaRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@PutMapping("/updateNota/{id}")
+	@PutMapping("/updateNota/{id}")	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> updateNota(@Valid @RequestBody Nota nota, BindingResult result, @PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 		Nota notaAUX = notaService.findByID(id);
+		List<Nota> listadoNotas = null;
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream()
 					.map(x -> "El campo '".concat(x.getField()).concat("' ," + x.getDefaultMessage()))
@@ -170,12 +172,15 @@ public class NotaRestController {
 			notaAUX.setDescripcion(nota.getDescripcion());
 			notaAUX.setTitulo(nota.getTitulo());
 			notaService.save(notaAUX);
+			listadoNotas = notaService.findAll();
+
 		} catch (DataAccessException e) {
 			response.put("mensake", "Error al actualizar la nota");
 			response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "La nota ha sido modificada con éxito");
+		response.put("Lista", listadoNotas);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 

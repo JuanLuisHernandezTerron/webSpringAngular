@@ -16,13 +16,15 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { NotasBorradasComponent } from './notas-borradas/notas-borradas.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { PipeStringPipe } from './../../pipes/pipe-string.pipe';
 
 @NgModule({
   declarations: [
     ProfileUserComponent,
     MainUserLogginComponent,
     NavSideComponent,
-    NotasBorradasComponent
+    NotasBorradasComponent,
+    PipeStringPipe
   ],
   imports: [
     CommonModule,

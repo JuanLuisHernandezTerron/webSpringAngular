@@ -22,7 +22,7 @@
                         <div>
                             <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter" >tune</mat-icon>
                             <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('ordenar')">sort</mat-icon>
-                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('filtro')">filter_alt</mat-icon>
+                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('filtro','200ms', '200ms')">filter_alt</mat-icon>
                         </div>
                     </div>
                     <hr>
@@ -42,7 +42,7 @@
                             <div class="row align-items-center mb-2">
                                 <div class="col-8">
                                     <h5 class="col-12">{{nota.titulo}}</h5>
-                                    <p class="text-truncate">{{nota.descripcion}}</p>
+                                    <p class="text-truncate">{{nota.descripcion | pipeString}}</p>
                                     <mat-chip-list class="col-3">
                                         <mat-chip-row disabled>{{this.usuarioInfo.nombre | titlecase}}</mat-chip-row>
                                     </mat-chip-list>

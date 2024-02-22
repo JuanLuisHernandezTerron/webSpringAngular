@@ -11,7 +11,7 @@
             <mat-card class="col-7 row d-flex flex-row notesforme-card justify-content-center align-items-center mt-4"
                 *ngFor="let nota of this.devolverNotasBorrada()">
                 <div class="col-2 divIMG m-auto p-0">
-                    <img src="./../../../../assets/img/man-593333_1280.jpg" class="img-fluid notesforme-image"
+                    <img [src]="(nota?.imgNota) ? 'http://localhost:8080/api/cliente/img/uploads/'+(nota?.imgNota) : './../../assets/img/man-593333_1280.jpg'" class="img-fluid notesforme-image"
                         alt="imagen-Nota">
                 </div>
                 <div class="col-8 d-flex justify-content-center align-items-center m-auto ">
