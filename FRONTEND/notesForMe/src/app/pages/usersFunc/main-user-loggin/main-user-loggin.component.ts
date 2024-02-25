@@ -8,7 +8,6 @@ import { Usuario } from 'src/app/models/usuario';
 import { usuarioBack } from 'src/app/models/usuarioBack';
 import { AuthServicesService } from 'src/app/services/authServices/auth-services.service';
 import { NotaServiceService } from 'src/app/services/notaServices/nota-service.service';
-import { DialogFilterComponent } from 'src/app/dialogs/dialog-filter/dialog-filter.component';
 declare var tinymce: any;
 
 @Component({
@@ -28,6 +27,7 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
   arrayNotas!: Array<Nota>;
   ordenarFilter: Boolean = true;
   actualizar: Boolean = false;
+  value:String = '';
 
   constructor(private toastr: ToastrService, private dialog: MatDialog, private authService: AuthServicesService, private notaService: NotaServiceService) {
 
@@ -106,6 +106,20 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
       })
   }
 
+  searchAvance(value:any){
+    let informacion = {
+      "idUsuario":this.usuarioInfo.dni,
+      "valor":value.target.value
+    }
+    this.notaService.busquedaAvanzada(informacion).subscribe(response=>{
+      console.log(response);
+    },
+    error=>{
+      console.log(error);
+    });
+    console.log(value.target.value);
+  }
+
   guardarNota() {
     this.notaEnviar.descripcion = tinymce.activeEditor.getContent();
     let formDataSend: FormData = new FormData();
@@ -121,7 +135,7 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
             x.titulo = this.notaEnviar.titulo;
           }
         })
-        if (this.notaEnviar.img_nota) {          
+        if (this.notaEnviar.img_nota) {
           this.notaService.insertImageNota(formDataSend).subscribe(response => {
             this.arrayNotas.forEach(x => {
               if (x.id == response.nota.id) {
@@ -134,9 +148,9 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
         this.toastr.success("Nota Modificada Correctamente");
         this.actualizar = false;
       },
-      err => {
-        this.actualizar = false;
-      })
+        err => {
+          this.actualizar = false;
+        })
     } else {
       this.notaService.insertNotas(this.notaEnviar).subscribe(response => {
         formDataSend.append("id", response?.id.toString())
@@ -188,31 +202,12 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
     })
   }
 
-  ajustes(tipoAjuste: String,enterAnimationDuration: string, exitAnimationDuration: string): void {
-    switch (tipoAjuste) {
-      case "ordenar":
-        this.ordenarFilter = !this.ordenarFilter;
-        this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
-          let fechaNotaA = new Date(a.fechaNota);
-          let fechaNotaB = new Date(b.fechaNota);
-          return this.ordenarFilter ? fechaNotaA.getTime() - fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
-        });
-        break;
-      case "filtro":
-        const dialogref = this.dialog.open(DialogFilterComponent, {
-          width: '40%',
-          enterAnimationDuration,
-          exitAnimationDuration,
-          autoFocus: false
-        });
-    
-        dialogref.afterClosed().subscribe((x) => {
-          console.log(x);
-        })
-        break;
-      
-      default:
-        break;
-    }
+  ajustes(): void {
+    this.ordenarFilter = !this.ordenarFilter;
+    this.arrayNotas = this.arrayNotas.sort((a: any, b: any) => {
+      let fechaNotaA = new Date(a.fechaNota);
+      let fechaNotaB = new Date(b.fechaNota);
+      return this.ordenarFilter ? fechaNotaA.getTime() - fechaNotaB.getTime() : fechaNotaB.getTime() - fechaNotaA.getTime();
+    })
   }
 }

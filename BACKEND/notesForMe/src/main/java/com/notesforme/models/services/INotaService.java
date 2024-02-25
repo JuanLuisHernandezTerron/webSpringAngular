@@ -3,8 +3,7 @@ package com.notesforme.models.services;
 import java.util.List;
 
 import com.notesforme.models.entity.Nota;
-import com.notesforme.models.entity.Usuario;
-
+import com.notesforme.models.entity.busquedaAvanzada;
 
 public interface INotaService {
 	
@@ -19,4 +18,6 @@ public interface INotaService {
 	public List<Nota> findByFkUsuario(String usuario);
 	
 	public void updateNotaBorrado(Long idNota, boolean borrada);
+	
+	public List<Nota> busquedaAvanzada(String idUsuario, String value);
 }

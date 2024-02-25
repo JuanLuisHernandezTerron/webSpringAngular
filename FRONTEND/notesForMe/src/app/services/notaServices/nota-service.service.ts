@@ -63,4 +63,16 @@ export class NotaServiceService {
     );
     return this.http.put<any>("http://localhost:8080/api/notas/updateNota/"+notaActualizar.id,notaActualizar,{headers:httpHeadersAuth})
   }
+
+  busquedaAvanzada(informacion:any):Observable<any>{
+    let httpHeadersAuth = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        'Access-Control-Allow-Origin': '*'
+      }
+    );
+
+    return this.http.get<any>("http://localhost:8080/api/notas/busquedaAvanzada",{headers:httpHeadersAuth,params:informacion})
+  }
 }

@@ -215,7 +215,6 @@ public class NotaRestController {
 	@PostMapping("/insertIMG")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> imgUpload(@RequestPart MultipartFile archivo, @RequestParam Long id) {
-		System.out.println("asdddddddddddddddddddddddddddddddssssssssssssssssssssssssssss");
 		Map<String, Object> response = new HashMap<>();
 		Nota notaActual = notaService.findByID(id);
 		String nombreArchivo = null;
@@ -243,6 +242,23 @@ public class NotaRestController {
 			response.put("mensaje", "La nota con id : " + notaActual.getId());
 		}
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping("/busquedaAvanzada")
+	public ResponseEntity<?>BusquedaAvanzada(@RequestParam String idUsuario,@RequestParam String valor){
+		Map<String, Object> response = new HashMap<>();
+		List<Nota> notaLista = null;
+		
+		try {
+			notaLista = notaService.busquedaAvanzada(idUsuario, valor);
+		} catch (Exception e) {
+			response.put("error", e.getMessage());
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.BAD_REQUEST);
+		}
+		
+		response.put("notas", notaLista);
+		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
 	}
 
 	private java.sql.Date fechaCast(String fecha) throws ParseException {

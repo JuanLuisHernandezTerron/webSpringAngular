@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.notesforme.models.dao.INotaDao;
 import com.notesforme.models.entity.Nota;
 import com.notesforme.models.entity.Usuario;
+import com.notesforme.models.entity.busquedaAvanzada;
 
 @Service 
 public class INotaServiceImpl implements INotaService{
@@ -15,8 +16,6 @@ public class INotaServiceImpl implements INotaService{
 	@Autowired
 	private INotaDao notaDao;
 	
-
-
 	@Override
 	public List<Nota> findAll() {
 		return notaDao.findAll();
@@ -45,5 +44,10 @@ public class INotaServiceImpl implements INotaService{
 	@Override
 	public void updateNotaBorrado(Long idNota, boolean borrada) {
 		notaDao.updateBorradoNota(idNota, borrada);
+	}
+
+	@Override
+	public List<Nota> busquedaAvanzada(String idUsuario, String value) {
+		return notaDao.busquedaAvanzada(idUsuario,value);
 	}
 }

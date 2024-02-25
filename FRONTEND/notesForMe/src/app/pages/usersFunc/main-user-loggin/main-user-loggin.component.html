@@ -17,12 +17,17 @@
                         <h3>Tus Notas</h3>
                         <button mat-raised-button class="notesforme-newNota fw-bold" (click)="this.newNota('200ms', '200ms')">NUEVA NOTA</button>
                     </div>
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <h6 class="">{{this.filterArray().length > 1 ? this.filterArray().length + ' notas' : this.filterArray().length + ' nota'}} </h6>
+                        <mat-form-field class="w-75">
+                            <mat-label>Busqueda Avanzada</mat-label>
+                            <input (keyup)="this.searchAvance($event)" matInput type="text" [(ngModel)]="value">
+                            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </mat-form-field>
                         <div>
-                            <mat-icon matTooltip="Ajustes" class="notesforme-icon-filter" >tune</mat-icon>
-                            <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('ordenar')">sort</mat-icon>
-                            <mat-icon matTooltip="Filtrar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes('filtro','200ms', '200ms')">filter_alt</mat-icon>
+                            <mat-icon matTooltip="Ordenar" class="ms-1 notesforme-icon-filter" (click)="this.ajustes()">sort</mat-icon>
                         </div>
                     </div>
                     <hr>

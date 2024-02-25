@@ -9,14 +9,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import { DialogUpdateNotaComponent } from './dialog-update-nota/dialog-update-nota.component';
-import { DialogFilterComponent } from './dialog-filter/dialog-filter.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
     NuevaNotaComponent,
     DialogUpdateNotaComponent,
-    DialogFilterComponent,
   ],
   imports: [
     CommonModule,
