@@ -6,11 +6,7 @@
                 matTooltip="Información">{{this.showFiller ? 'arrow_forward_ios' : 'arrow_back_ios'}}</mat-icon>
         </div>
         <div class="col-3 row notesforme-Notes">
-            <div *ngIf="this.filterArray().length == 0" class="col-12 d-flex justify-content-center mt-5">
-                <mat-icon class="notesforme-icon mt-2">add_circle</mat-icon>
-                <h1 class="ms-4">Escribe tu primera NOTA!</h1>
-            </div>
-            <div class="col-12" *ngIf="this.filterArray().length > 0">
+            <div class="col-12">
                 <!----------------------------------------------FILTROS----------------------------------------------------------------->
                 <div class="row">
                     <div class="col-12 d-flex justify-content-between mb-4 mt-2">
@@ -21,7 +17,7 @@
                         <h6 class="">{{this.filterArray().length > 1 ? this.filterArray().length + ' notas' : this.filterArray().length + ' nota'}} </h6>
                         <mat-form-field class="w-75">
                             <mat-label>Busqueda Avanzada</mat-label>
-                            <input (keyup)="this.searchAvance($event)" matInput type="text" [(ngModel)]="value">
+                            <input (keyup)="this.searchAvance($event)" matInput type="text">
                             <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
                               <mat-icon>close</mat-icon>
                             </button>

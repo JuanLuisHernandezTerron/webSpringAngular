@@ -9,18 +9,56 @@
     <div class="row justify-content-center">
         <button mat-raised-button color="primary" class="notesforme-button p-4 mt-4 mb-4 fw-bold">Nueva Nota!</button>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-        <div data-aos="zoom-in-down">
-            <img src="./../../../../assets/img/atractivo-hombre-barbudo-anteojos-smartphone.jpg" class="img-fluid notesforme-imgDiv" alt="">
-            <h2></h2>
+</div>
+<div class="container-fluid notesforme-divInfo">
+    <div data-aos="zoom-in-down"
+        class="container d-flex justify-content-center align-items-center mt-3 notesforme-divFuncionalidades mb-4">
+        <div class="mt-5 ms-4">
+            <mat-icon class="notesforme-iconDiv">image</mat-icon>
+            <h5 class="fw-bold mt-3 mb-2">INSERCCIÓN IMÁGENES</h5>
+            <h6 class="text-uppercase">Funcionalidad para agregar elementos visuales para complementar sus contenidos
+                escritos, con las imagenes los usuarios enriquecen sus notas.</h6>
         </div>
-        <div data-aos="zoom-in-down">
-            <img src="./../../../../assets/img/retrato-hombre-negocios-joven-sonriente-que-usa-computadora-portatil.jpg" class="img-fluid notesforme-imgDiv" alt="">
-            <h2></h2>
+        <div class="mt-5 ms-5 ">
+            <mat-icon class="notesforme-iconDiv">find_in_page</mat-icon>
+            <h5 class="fw-bold mt-3 mb-2">BUSQUEDA AVANZADA</h5>
+            <h6 class="text-uppercase"> Mejora la eficiencia al permitir una recuperación rápida y precisa de
+                información
+                dentro de una amplia colección de notas, introduciendo palabras claves</h6>
         </div>
-        <div data-aos="zoom-in-down">
-            <img src="./../../../../assets/img/trabajar-casa-estacion-trabajo-ergonomica.jpg" class="img-fluid notesforme-imgDiv" alt="">
-            <h2></h2>
+        <div class="mt-5 ms-5">
+            <mat-icon class="notesforme-iconDiv">restore_from_trash</mat-icon>
+            <h5 class="fw-bold mt-3 mb-2">SISTEMA DE BORRADO</h5>
+            <h6 class="text-uppercase">Ofrecemmos a los usuarios la capacidad de eliminar notas de manera temporal,
+                almacenándolas temporalmente, en un área.</h6>
         </div>
+        <div class="mt-5 ms-5 ">
+            <mat-icon class="notesforme-iconDiv">verified_user</mat-icon>
+            <h5 class="fw-bold mt-3 mb-2">SEGURIDAD</h5>
+            <h6 class="text-uppercase">Garantizamos la protección de la información personal y confidencial mediante el
+                uso de medidas como el cifrado de datos y autenticación de usuarios</h6>
+        </div>
+    </div>
+    <div class="row notesforme-divIMG" data-aos="zoom-in-down">
+        <div class="col-6 notesforme-divIMG1 d-flex align-items-center justify-content-center">
+            <h2 class="text-uppercase text-white fw-bold text-center">actualmente contamos diversas <br>funcionalidades
+                punteras para <br> mejorar tu experiencia</h2>
+        </div>
+        <div class="col-6 notesforme-divIMG2 d-flex align-items-center justify-content-center d-flex flex-column">
+            <h2 class="text-uppercase text-white fw-bold text-center">nuestra aplicacion multiplataforma <br> te ayuda a
+                desarrollar tus ideas <br> !registrate ya!</h2>
+            <button mat-stroked-button [routerLink]="['/auth/register']">REGISTRATE</button>
+        </div>
+    </div>
+    <div data-aos="zoom-in-down" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="row">
+            <h1 class="mt-5">La aplicación</h1>
+        </div>
+        <div class="row d-flex justify-content-center mt-3">
+            <h3 class="w-25">
+                Una aplicación de notas intuitiva que permite <span class="fw-bold">crear, editar y eliminar</span>  notas fácilmente, incluyendo la opción de <span class="fw-bold">insertar imágenes</span> . Ofrece funciones de <span class="fw-bold">recuperación y ordenación de notas</span> , además de una <span class="fw-bold">búsqueda avanzada</span>  basada en palabras clave para encontrar notas rápidamente por sus descripciones.
+            </h3>
+        </div>
+        <img src="../../../../assets/img/laptop_realistic_2.png" class="w-50 img-fluid img-div" alt="">
     </div>
 </div>

@@ -61,7 +61,6 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
       plugins: 'image | table | autosave',
       setup: function (editor) {
         editor.on('init', function () {
-          console.log('TinyMCE initialized');
         });
       }
     });
@@ -112,12 +111,11 @@ export class MainUserLogginComponent implements OnInit, OnDestroy, AfterViewInit
       "valor":value.target.value
     }
     this.notaService.busquedaAvanzada(informacion).subscribe(response=>{
-      console.log(response);
+      this.arrayNotas = response.notas;
     },
     error=>{
       console.log(error);
     });
-    console.log(value.target.value);
   }
 
   guardarNota() {

@@ -30,9 +30,7 @@ export class ProfileUserComponent implements OnInit {
   progressSpinner: boolean = false;
   showFiller: Boolean = true;
 
-  ngOnInit(): void {
-    console.log(this.usuarioInfo);
-    
+  ngOnInit(): void {    
   }
   
   imagenesChange(event:any) {
